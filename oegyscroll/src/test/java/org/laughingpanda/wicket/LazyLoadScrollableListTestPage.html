@@ -1,0 +1,37 @@
+<html>
+<head>
+	 <style type="text/css">
+	 	#content {padding:10px;}
+	 	.data-list {height:312px;overflow:auto;border:1px solid #ccc;}
+	 	.data-list td {font-size:11px;}
+	 	.data-list tr.loader-placeholder td {height:2400px;}
+	 	.data-list tbody tr.loaded-row td {height:24px;padding:4px 0 0 4px;}
+	 	.data-list .loader-placeholder td {background:transparent url(images/loading-row.gif) repeat-y;}
+	 	.scrollable-area {background:#fff url(images/table-rows-striped.gif);}
+	 </style>
+</head>
+<body>
+<div id="content">	
+	<h1 class="page-header">OegyScroll Demo Page</h1>			
+	<div wicket:id="djuizyScroller" class="data-list">
+	  	<div class="scrollable-area">
+		  	<table wicket:id="scrolledContent">
+			   <tbody wicket:id="block">
+				   <tr wicket:id="placeholder">
+				   		<td>
+							&nbsp;
+						</td>
+					</tr>
+					<tr wicket:id="row">
+						<td>	
+							<span wicket:id="rowLabel"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<a wicket:id="refresh" href="#">Refresh</a>
+</body>
+</html>
