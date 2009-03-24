@@ -32,12 +32,11 @@ public class OegyScrollDemoPage extends WebPage {
         final LazyLoadScrollableList<String> scroller = new LazyLoadScrollableList<String>("djuizyScroller", new ListDataProvider(data), blockSize) {
             @Override
             protected void populateRow(final WebMarkupContainer rowContainer, final String modelObject) {
-                rowContainer.add(new Label("rowLabel", new Model(modelObject)));
+                rowContainer.add(new Label("rowLabel", new Model<String>(modelObject)));
             }
         };
-        scroller.setOutputMarkupId(true);
         add(scroller);
-        add(new AjaxLink("refresh") {
+        add(new AjaxLink<Object>("refresh") {
             @Override
             public void onClick(final AjaxRequestTarget target) {
                 data.clear();
