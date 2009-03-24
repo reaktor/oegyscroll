@@ -27,7 +27,7 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
     private final IDataProvider<T> dataProvider;
     final int blockSize;
     private final BlockDataView blockDataView;
-    private final ArrayList<Block> blocks = new ArrayList<Block>();
+    private final List<Block> blocks = new ArrayList<Block>();
     private final ScrolledContentView scrolledContent;
 
     public LazyLoadScrollableList(final String id, final IDataProvider<T> dataProvider, final int blockSize) {
