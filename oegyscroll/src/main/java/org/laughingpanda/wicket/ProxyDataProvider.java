@@ -26,7 +26,7 @@ class ProxyDataProvider<T> implements IDataProvider<T> {
         dataProvider.detach();
     }
 
-    public Iterator iterator(final int i, final int j) {
+    public Iterator<? extends T> iterator(final int i, final int j) {
         return dataProvider.iterator(i, j);
     }
 

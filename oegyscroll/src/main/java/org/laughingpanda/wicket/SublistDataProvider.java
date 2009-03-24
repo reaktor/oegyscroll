@@ -16,8 +16,7 @@ public class SublistDataProvider<T> implements IDataProvider<T> {
         this.index = index;
     }
 
-    @SuppressWarnings("unchecked")
-    public Iterator iterator(final int index, final int count) {
+    public Iterator<? extends T> iterator(final int index, final int count) {
         return dataProvider.iterator(this.index + index, count);
     }
 
