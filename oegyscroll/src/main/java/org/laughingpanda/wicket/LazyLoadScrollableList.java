@@ -83,7 +83,7 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
 
     protected abstract void populateRow(final WebMarkupContainer rowContainer, final T modelObject);
 
-    public IDataProvider getDataProvider() {
+    public IDataProvider<T> getDataProvider() {
         return dataProvider;
     }
 
@@ -117,7 +117,7 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
 
         void showRows() {
             placeholder.setVisible(false);
-            rows.setDataProvider(new SublistDataProvider(getDataProvider(), startIndex, itemCount));
+            rows.setDataProvider(new SublistDataProvider<T>(getDataProvider(), startIndex, itemCount));
         }
 
         public void showRows(final AjaxRequestTarget target) {
