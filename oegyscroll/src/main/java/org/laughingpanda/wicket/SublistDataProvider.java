@@ -7,13 +7,14 @@ import org.apache.wicket.model.IModel;
 
 public class SublistDataProvider<T> implements IDataProvider<T> {
     private final IDataProvider<T> dataProvider;
-    private final int index, count;
+    private final int index;
+    private final int count;
 
     public SublistDataProvider(final IDataProvider<T> dataProvider, final int index, final int count) {
         super();
-        this.count = count;
         this.dataProvider = dataProvider;
         this.index = index;
+        this.count = count;
     }
 
     public Iterator<? extends T> iterator(final int index, final int count) {
