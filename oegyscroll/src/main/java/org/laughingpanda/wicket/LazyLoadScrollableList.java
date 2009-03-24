@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
@@ -14,6 +15,8 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 import org.apache.wicket.util.template.TextTemplateHeaderContributor;
@@ -61,12 +64,16 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private Model getJavascriptVariablesModel() {
-        final HashMap<String, String> javascripsVariables = new HashMap<String, String>();
+    private IModel<Map<String, Object>> getJavascriptVariablesModel() {
+        final Map<String, Object> javascripsVariables = new HashMap<String, Object>();
         javascripsVariables.put("scrollerId", getMarkupId());
         javascripsVariables.put("scrolledContentId", scrolledContent.getMarkupId());
-        Model variablesModel = new Model(javascripsVariables);
+        IModel<Map<String, Object>> variablesModel = new AbstractReadOnlyModel<Map<String, Object>>() {
+            @Override
+            public Map<String, Object> getObject() {
+                return javascripsVariables;
+            }
+        };
         return variablesModel;
     }
 
