@@ -62,7 +62,7 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
     }
 
     @SuppressWarnings("unchecked")
-	private Model getJavascriptVariablesModel() {
+    private Model getJavascriptVariablesModel() {
         final HashMap<String, String> javascripsVariables = new HashMap<String, String>();
         javascripsVariables.put("scrollerId", getMarkupId());
         javascripsVariables.put("scrolledContentId", scrolledContent.getMarkupId());
@@ -71,7 +71,7 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
     }
 
     void setAttribute(final Component c, final String attribute, final String value) {
-        c.add(new AttributeModifier(attribute, true, new Model(value)));
+        c.add(new AttributeModifier(attribute, true, new Model<String>(value)));
     }
 
     protected abstract void populateRow(final WebMarkupContainer rowContainer, final T modelObject);
