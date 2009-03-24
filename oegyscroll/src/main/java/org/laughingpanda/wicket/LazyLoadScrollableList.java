@@ -22,10 +22,10 @@ import org.apache.wicket.util.template.PackagedTextTemplate;
 import org.apache.wicket.util.template.TextTemplateHeaderContributor;
 
 public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
-    int remainder;
+    private int remainder;
     private int blockCountExcludingRemainderBlock;
     private final IDataProvider<T> dataProvider;
-    final int blockSize;
+    private final int blockSize;
     private final BlockDataView blockDataView;
     private final List<Block> blocks = new ArrayList<Block>();
     private final ScrolledContentView scrolledContent;
