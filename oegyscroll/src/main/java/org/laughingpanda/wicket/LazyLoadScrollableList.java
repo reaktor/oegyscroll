@@ -87,14 +87,14 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
         return dataProvider;
     }
 
-    private final class ScrolledContentView extends WebMarkupContainer {
+    private static final class ScrolledContentView extends WebMarkupContainer {
         private ScrolledContentView(final String id) {
             super(id);
             setOutputMarkupId(true);
         }
     }
 
-    class Block implements Serializable {
+    private class Block implements Serializable {
         private Component placeholder;
         private RowDataView rows;
         private final int startIndex;
@@ -144,7 +144,7 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
         }
     }
 
-    class RemainderBlock extends Block {
+    private final class RemainderBlock extends Block {
         public RemainderBlock() {
             super(0, remainder);
         }
