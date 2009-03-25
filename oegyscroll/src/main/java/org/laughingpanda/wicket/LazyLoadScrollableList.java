@@ -26,18 +26,15 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
     private int blockCountExcludingRemainderBlock;
     private final IDataProvider<T> dataProvider;
     private final int blockSize;
-    private final BlockDataView blockDataView;
     private final List<Block> blocks = new ArrayList<Block>();
-    private final ScrolledContentView scrolledContent;
 
     public LazyLoadScrollableList(final String id, final IDataProvider<T> dataProvider, final int blockSize) {
         super(id);
         this.blockSize = blockSize;
-        scrolledContent = new ScrolledContentView("scrolledContent");
-        add(scrolledContent);
         this.dataProvider = dataProvider;
-        blockDataView = new BlockDataView("block", blocks);
-        scrolledContent.add(blockDataView);
+        ScrolledContentView scrolledContent = new ScrolledContentView("scrolledContent");
+        scrolledContent.add(new BlockDataView("block", blocks));
+        add(scrolledContent);
         setMarkupId("scroller" + System.identityHashCode(this));
         add(TextTemplateHeaderContributor.forJavaScript(new PackagedTextTemplate(LazyLoadScrollableList.class, "scroller.js"), getJavascriptVariablesModel()));
         setOutputMarkupId(true);
@@ -67,7 +64,7 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
     private IModel<Map<String, Object>> getJavascriptVariablesModel() {
         final Map<String, Object> javascripsVariables = new HashMap<String, Object>();
         javascripsVariables.put("scrollerId", getMarkupId());
-        javascripsVariables.put("scrolledContentId", scrolledContent.getMarkupId());
+        javascripsVariables.put("scrolledContentId", get("scrolledContent").getMarkupId());
         IModel<Map<String, Object>> variablesModel = new AbstractReadOnlyModel<Map<String, Object>>() {
             @Override
             public Map<String, Object> getObject() {
