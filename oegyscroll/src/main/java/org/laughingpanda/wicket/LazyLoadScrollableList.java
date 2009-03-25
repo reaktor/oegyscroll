@@ -125,10 +125,9 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
             ((ProxyDataProvider<T>) getDataProvider()).setDataProvider(dataProvider);
         }
 
-        @SuppressWarnings("unchecked")
         @Override
-        protected void populateItem(final Item item) {
-            T modelObject = (T) item.getDefaultModelObject();
+        protected void populateItem(final Item<T> item) {
+            T modelObject = item.getModelObject();
             setAttribute(item, "class", "loaded-row");
             populateRow(item, modelObject);
         }
