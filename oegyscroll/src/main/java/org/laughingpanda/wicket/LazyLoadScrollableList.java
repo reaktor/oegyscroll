@@ -152,7 +152,7 @@ public abstract class LazyLoadScrollableList<T> extends WebMarkupContainer {
 
         @Override
         protected void populateItem(final Item<Block> item) {
-            ((Block) item.getDefaultModelObject()).populate(item);
+            (item.getModelObject()).populate(item);
         }
     }
 
