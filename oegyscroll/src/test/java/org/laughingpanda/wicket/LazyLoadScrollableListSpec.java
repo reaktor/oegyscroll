@@ -11,13 +11,13 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.junit.runner.RunWith;
-import org.laughingpanda.wicket.LazyLoadScrollableList.PlaceHolder;
 
 @RunWith(JDaveRunner.class)
 public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadScrollableListTestPage> {
     List<String> testData = new ArrayList<String>(Arrays.asList("row1", "row2"));
     int blockSize = 4;
 
+    @SuppressWarnings("unchecked")
     @Override
     protected LazyLoadScrollableListTestPage newComponent(final String id, final IModel model) {
         return new LazyLoadScrollableListTestPage(testData, blockSize);
@@ -111,7 +111,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
 
     @SuppressWarnings("unchecked")
     private List<PlaceHolder> getPlaceholders() {
-        return selectAll(LazyLoadScrollableList.PlaceHolder.class).from(context);
+        return selectAll(PlaceHolder.class).from(context);
     }
 
     private List<Label> getRenderedRows() {
