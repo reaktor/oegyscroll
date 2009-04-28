@@ -4,7 +4,7 @@
 	<groupId>org.laughingpanda.oegyscroll</groupId>
 	<artifactId>oegyscroll-demo</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>oegyscroll-demo</name>
 	<url>http://www.laughingpanda.org</url>
 	<dependencies>
