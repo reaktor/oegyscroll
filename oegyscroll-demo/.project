@@ -1,7 +1,9 @@
 <projectDescription>
   <name>oegyscroll-demo</name>
   <comment/>
-  <projects/>
+  <projects>
+    <project>oegyscroll</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
