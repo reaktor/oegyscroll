@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 import org.apache.wicket.util.template.TextTemplateHeaderContributor;
 
@@ -26,7 +26,7 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
         this.dataProvider = dataProvider;
         add(new ScrolledContentView<T>("scrolledContent", blocks));
         setMarkupId("scroller" + System.identityHashCode(this));
-        add(TextTemplateHeaderContributor.forJavaScript(new PackagedTextTemplate(LazyLoadScrollableList.class, "scroller.js"), getJavascriptVariablesModel()));
+        addJavaScript();
         setOutputMarkupId(true);
     }
 
@@ -51,17 +51,21 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
         }
     }
 
+	private void addJavaScript() {
+		PackagedTextTemplate template = new PackagedTextTemplate(LazyLoadScrollableList.class, "scroller.js");
+		add(TextTemplateHeaderContributor.forJavaScript(template, getJavascriptVariablesModel()));
+	}
+
     private IModel<Map<String, Object>> getJavascriptVariablesModel() {
-        final Map<String, Object> javascripsVariables = new HashMap<String, Object>();
-        javascripsVariables.put("scrollerId", getMarkupId());
-        javascripsVariables.put("scrolledContentId", get("scrolledContent").getMarkupId());
-        IModel<Map<String, Object>> variablesModel = new AbstractReadOnlyModel<Map<String, Object>>() {
+        return new LoadableDetachableModel<Map<String, Object>>() {
             @Override
-            public Map<String, Object> getObject() {
-                return javascripsVariables;
+            protected Map<String, Object> load() {
+            	Map<String, Object> jsVariables = new HashMap<String, Object>();
+            	jsVariables.put("scrollerId", getMarkupId());
+            	jsVariables.put("scrolledContentId", get("scrolledContent").getMarkupId());
+                return jsVariables;
             }
         };
-        return variablesModel;
     }
 
     protected abstract void populateRow(final WebMarkupContainer rowContainer, final T modelObject);
