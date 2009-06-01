@@ -19,6 +19,5 @@ class ScrolledContentView<T extends Serializable> extends WebMarkupContainer {
                 block.populate(item);
             }
         });
-
     }
 }
