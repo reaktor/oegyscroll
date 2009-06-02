@@ -31,10 +31,10 @@
 		}
 		
 		function clickPlaceholdersWithin(contentScrolled, minPosition, maxPosition) {	
-			var allcontentRows = getAllRows(contentScrolled);		
-			for (var i = 0; allcontentRows.length > i; i++) {
-				var row = allcontentRows[i];
-				if (row.className == 'loader-placeholder') {
+			var rows = getAllRows(contentScrolled);		
+			for (var i = 0; rows.length > i; i++) {
+				var row = rows[i];
+				if (hasClass(row, 'loader-placeholder')) {
 					var rowPosition = row.offsetTop;
 					if (rowPosition > minPosition && rowPosition < maxPosition) {
 						row.onclick();
@@ -52,12 +52,12 @@
 		}
 		
 		function getElementHeight(contentScrolled, className) {
-			var allcontentRows = getAllRows(contentScrolled);
-			for (var i = 0;allcontentRows.length > i; i++) {
-		        if (allcontentRows[i].className.indexOf(className) > -1) {
-		           return allcontentRows[i].offsetHeight;
-		        }
-		    }
+			var rows = getAllRows(contentScrolled);
+			for (var i = 0; rows.length > i; i++) {
+				if (hasClass(rows[i], className)) {
+					return rows[i].offsetHeight;
+				}
+			}
 		}
 		
 		function getAllRows(contentScrolled) {
@@ -69,6 +69,18 @@
 			if (console) {
 				console.log(text);
 			}
+		}
+
+		function hasClass(element, className) {
+			if (element.className) {
+				var classes = element.className.split(' ');
+				for (var i = 0; i < classes.length; i++) {
+					if (classes[i] == className) {
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		function elementById(id) {
