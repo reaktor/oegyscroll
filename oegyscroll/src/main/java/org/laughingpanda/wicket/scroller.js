@@ -10,15 +10,21 @@
 		
 		function checkScrollPosition(scrollerId, scrolledContentId){			
 			var scroller = document.getElementById(scrollerId); 
+			var contentScrolled = document.getElementById(scrolledContentId); 
+
 			if (!scroller) {
 				error(scrollerId + ' not found');
 			}
-			var contentLoaderHeight = scroller.offsetHeight;
-			
-			var contentScrolled = document.getElementById(scrolledContentId); 
 			if (!contentScrolled) {
 				error(scrolledContentId + ' not found');
 			}
+
+			refreshPlaceholders(scroller, contentScrolled);
+			refreshLoader(scrollerId, scrolledContentId);
+		}
+		
+		function refreshPlaceholders(scroller, contentScrolled) {
+			var contentLoaderHeight = scroller.offsetHeight;
 			var contentScrolledHeight = contentScrolled.offsetHeight; 
 			
 			var placeHolderHeight = getPlaceHolderHeight(contentScrolled); 
@@ -39,7 +45,6 @@
 					}
 				}
 		    }
-			refreshLoader(scrollerId, scrolledContentId);
 		}
 		
 		function getPlaceHolderHeight(contentScrolled){
