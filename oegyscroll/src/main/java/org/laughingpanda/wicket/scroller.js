@@ -54,7 +54,7 @@
 		function getElementHeight(contentScrolled, className) {
 			var allcontentRows = getAllRows(contentScrolled);
 			for (var i = 0;allcontentRows.length > i; i++) {
-		        if(allcontentRows[i].className.indexOf(className) > -1) {
+		        if (allcontentRows[i].className.indexOf(className) > -1) {
 		           return allcontentRows[i].offsetHeight;
 		        }
 		    }
