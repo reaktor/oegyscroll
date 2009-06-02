@@ -40,7 +40,7 @@ function clickPlaceholdersWithin(contentScrolled, minPosition, maxPosition) {
 				row.onclick();
 			}
 		}
-    }
+	}
 }
 
 function getPlaceHolderHeight(contentScrolled) {
