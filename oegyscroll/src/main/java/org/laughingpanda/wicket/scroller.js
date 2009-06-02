@@ -9,17 +9,11 @@
 		}
 		
 		function checkScrollPosition(scrollerId, scrolledContentId){			
-			var scroller = document.getElementById(scrollerId); 
-			var contentScrolled = document.getElementById(scrolledContentId); 
-
-			if (!scroller) {
-				error(scrollerId + ' not found');
+			var scroller = elementById(scrollerId); 
+			var contentScrolled = elementById(scrolledContentId); 
+			if (scroller && contentScrolled) {
+				refreshPlaceholders(scroller, contentScrolled);
 			}
-			if (!contentScrolled) {
-				error(scrolledContentId + ' not found');
-			}
-
-			refreshPlaceholders(scroller, contentScrolled);
 			refreshLoader(scrollerId, scrolledContentId);
 		}
 		
@@ -30,11 +24,13 @@
 			var placeHolderHeight = getPlaceHolderHeight(contentScrolled); 
 			var loadedRowHeight = getLoadedRowHeight(contentScrolled); 
 			
-			scrollPosition = scroller.scrollTop;
-			
-			var minPosition = scrollPosition - placeHolderHeight + loadedRowHeight; 
+			var minPosition = scroller.scrollTop - placeHolderHeight + loadedRowHeight; 
 			var maxPosition = minPosition + placeHolderHeight + contentLoaderHeight - loadedRowHeight;
 			
+			clickPlaceholdersWithin(contentScrolled, minPosition, maxPosition);
+		}
+		
+		function clickPlaceholdersWithin(contentScrolled, minPosition, maxPosition) {	
 			var allcontentRows = getAllRows(contentScrolled);		
 			for (var i = 0;allcontentRows.length > i; i++) {
 				var row = allcontentRows[i];
@@ -74,4 +70,12 @@
 			if (console) {
 				console.log(text);
 			}
+		}
+
+		function elementById(id) {
+			var element = document.getElementById(id);
+			if (!element) {
+				error('Element ' + id + ' not found from page.');
+			}
+			return element;
 		}
