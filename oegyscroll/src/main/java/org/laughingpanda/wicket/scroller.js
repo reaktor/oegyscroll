@@ -66,5 +66,7 @@
 		}
 		
 		function error(text) {
-			alert(text);
+			if (console) {
+				console.log(text);
+			}
 		}
