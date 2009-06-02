@@ -18,6 +18,11 @@
 			<url>scpexe://ssh.laughingpanda.org:/var/www/localhost/htdocs/maven2/</url>
 		</repository>
 	</distributionManagement>
+	<scm>
+		<connection>scm:svn:https://svn.laughingpanda.org/svn/oegyscroll/trunk</connection>
+		<developerConnection>scm:svn:https://svn.laughingpanda.org/svn/oegyscroll/trunk</developerConnection>
+		<url>https://svn.laughingpanda.org/svn/oegyscroll/trunk</url>
+	</scm>
 	<repositories>
 		<repository>
 			<id>Laughing Panda</id>
