@@ -1,20 +1,20 @@
 		initContentLoader("${scrollerId}", "${scrolledContentId}");		
 	 	
 	 	function initContentLoader(scrollerId, scrolledContentId){
-			refreshLoader(scrollerId, scrolledContentId);
+			scheduleScrollPositionUpdate(scrollerId, scrolledContentId);
 		}
 		
-		function refreshLoader(scrollerId, scrolledContentId){
+		function scheduleScrollPositionUpdate(scrollerId, scrolledContentId) {
 			setTimeout('checkScrollPosition("' + scrollerId+ '", "' + scrolledContentId + '")', 1000);
 		}
 		
-		function checkScrollPosition(scrollerId, scrolledContentId){			
+		function checkScrollPosition(scrollerId, scrolledContentId) {			
 			var scroller = elementById(scrollerId); 
 			var contentScrolled = elementById(scrolledContentId); 
 			if (scroller && contentScrolled) {
 				refreshPlaceholders(scroller, contentScrolled);
 			}
-			refreshLoader(scrollerId, scrolledContentId);
+			scheduleScrollPositionUpdate(scrollerId, scrolledContentId);
 		}
 		
 		function refreshPlaceholders(scroller, contentScrolled) {
@@ -32,29 +32,29 @@
 		
 		function clickPlaceholdersWithin(contentScrolled, minPosition, maxPosition) {	
 			var allcontentRows = getAllRows(contentScrolled);		
-			for (var i = 0;allcontentRows.length > i; i++) {
+			for (var i = 0; allcontentRows.length > i; i++) {
 				var row = allcontentRows[i];
 				if (row.className == 'loader-placeholder') {
-					var trPosition = row.offsetTop;
-					if(trPosition > minPosition && trPosition < maxPosition){
+					var rowPosition = row.offsetTop;
+					if (rowPosition > minPosition && rowPosition < maxPosition) {
 						row.onclick();
 					}
 				}
 		    }
 		}
 		
-		function getPlaceHolderHeight(contentScrolled){
-			return getElementHeight(contentScrolled, 'loader-placeholder')
+		function getPlaceHolderHeight(contentScrolled) {
+			return getElementHeight(contentScrolled, 'loader-placeholder');
 		}
 		
-		function getLoadedRowHeight(contentScrolled){
-			return getElementHeight(contentScrolled, 'loaded-row')
+		function getLoadedRowHeight(contentScrolled) {
+			return getElementHeight(contentScrolled, 'loaded-row');
 		}
 		
 		function getElementHeight(contentScrolled, className) {
 			var allcontentRows = getAllRows(contentScrolled);
-			for (var i = 0;allcontentRows.length > i; i++){
-		        if(allcontentRows[i].className.indexOf(className) > -1){
+			for (var i = 0;allcontentRows.length > i; i++) {
+		        if(allcontentRows[i].className.indexOf(className) > -1) {
 		           return allcontentRows[i].offsetHeight;
 		        }
 		    }
