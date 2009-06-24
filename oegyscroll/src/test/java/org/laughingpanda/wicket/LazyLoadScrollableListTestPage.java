@@ -14,8 +14,9 @@ public class LazyLoadScrollableListTestPage extends WebPage {
     public LazyLoadScrollableListTestPage(final List<String> data, final int blockSize) {
         final LazyLoadScrollableList<String> scroller = new LazyLoadScrollableList<String>("djuizyScroller", new ListDataProvider<String>(data), blockSize) {
             @Override
-            protected void populateRow(final WebMarkupContainer rowContainer, final String modelObject) {
+            protected void populateRow(final WebMarkupContainer rowContainer, final int index, final String modelObject) {
                 rowContainer.add(new Label("rowLabel", new Model<String>(modelObject)));
+                rowContainer.add(new Label("indexLabel", new Model<String>(String.valueOf(index))));
             }
         };
         scroller.setOutputMarkupId(true);

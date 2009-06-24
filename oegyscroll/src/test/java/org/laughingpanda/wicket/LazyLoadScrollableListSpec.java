@@ -65,6 +65,10 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         public void placeHolderIsHidden() {
             specify(getPlaceholders().get(0).isVisible(), false);
         }
+        
+        public void providesIndexForRows() {
+        	verifyIndexes();
+        }
     }
 
     public class WhenDatasetIsLargerThanBlockSize {
@@ -86,10 +90,19 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
 
         public void secondBlockIsRenderedWhenClicked() {
-            wicket.executeAjaxEvent(getPlaceholders().get(1), "onclick");
+            showSecondBlock();
             specify(getPlaceholders().get(1).isVisible(), false);
             specify(getRenderedRows().size(), 2);
         }
+        
+        public void providesConsecutiveIndexesForRowsOnDifferentBlocks() {
+            showSecondBlock();
+        	verifyIndexes();
+        }
+
+		private void showSecondBlock() {
+			wicket.executeAjaxEvent(getPlaceholders().get(1), "onclick");
+		}
     }
 
     public class WhenUpdatingListUsingAjax {
@@ -115,11 +128,20 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
     }
 
     private List<Label> getRenderedRows() {
-        return selectAll(Label.class).from(context);
+        return selectAll(Label.class, "rowLabel").from(context);
+    }
+
+    private List<Label> getRenderedIndexes() {
+        return selectAll(Label.class, "indexLabel").from(context);
     }
 
     @SuppressWarnings("unchecked")
     private LazyLoadScrollableList<String> getScroller() {
         return selectFirst(LazyLoadScrollableList.class).from(context);
     }
+    
+	private void verifyIndexes() {
+		specify(getRenderedIndexes().get(0).getDefaultModelObjectAsString(), should.equal("0"));
+    	specify(getRenderedIndexes().get(1).getDefaultModelObjectAsString(), should.equal("1"));
+	}
 }

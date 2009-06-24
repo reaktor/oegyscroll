@@ -68,7 +68,7 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
         };
     }
 
-    protected abstract void populateRow(final WebMarkupContainer rowContainer, final T modelObject);
+    protected abstract void populateRow(final WebMarkupContainer rowContainer, final int index, final T modelObject);
 
     public IDataProvider<T> getDataProvider() {
         return dataProvider;

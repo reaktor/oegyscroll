@@ -9,10 +9,12 @@ import org.apache.wicket.model.Model;
 
 class RowDataView<T extends Serializable> extends DataView<T> {
     private final LazyLoadScrollableList<T> list;
+    private final int offset;
 
-    public RowDataView(final String id, LazyLoadScrollableList<T> list) {
+    public RowDataView(final String id, LazyLoadScrollableList<T> list, int offset) {
         super(id, new ProxyDataProvider<T>());
         this.list = list;
+        this.offset = offset;
     }
 
     public void setDataProvider(final SublistDataProvider<T> dataProvider) {
@@ -23,6 +25,6 @@ class RowDataView<T extends Serializable> extends DataView<T> {
     protected void populateItem(final Item<T> item) {
         T modelObject = item.getModelObject();
         item.add(new AttributeModifier("class", true, new Model<String>("loaded-row")));
-        list.populateRow(item, modelObject);
+        list.populateRow(item, offset + item.getIndex(), modelObject);
     }
 }

@@ -25,7 +25,7 @@ class Block<T extends Serializable> implements Serializable {
         this.blockListItem = item;
         placeholder = new PlaceHolder<T>(this);
         item.add(placeholder);
-        rowDataView = new RowDataView<T>("row", list);
+        rowDataView = new RowDataView<T>("row", list, startIndex);
         item.add(rowDataView);
     }
 
