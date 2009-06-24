@@ -31,7 +31,7 @@ public class OegyScrollDemoPage extends WebPage {
     public OegyScrollDemoPage(final List<String> data, final int blockSize) {
         final LazyLoadScrollableList<String> scroller = new LazyLoadScrollableList<String>("djuizyScroller", new ListDataProvider<String>(data), blockSize) {
             @Override
-            protected void populateRow(final WebMarkupContainer rowContainer, final String modelObject) {
+            protected void populateRow(final WebMarkupContainer rowContainer, final int index, final String modelObject) {
                 rowContainer.add(new Label("rowLabel", new Model<String>(modelObject)));
             }
         };
