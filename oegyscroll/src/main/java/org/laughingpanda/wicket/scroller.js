@@ -31,15 +31,24 @@ function refreshPlaceholders(scroller, contentScrolled) {
 }
 
 function clickPlaceholdersWithin(contentScrolled, minPosition, maxPosition) {
-	var rows = getAllRows(contentScrolled);
-	for (var i = 0; rows.length > i; i++) {
-		var row = rows[i];
-		if (hasClass(row, 'loader-placeholder')) {
-			var rowPosition = row.offsetTop;
-			if (rowPosition > minPosition && rowPosition < maxPosition) {
-				row.onclick();
-			}
+	forChildren(contentScrolled, function(element) {clickIfPlaceHolder(element, minPosition, maxPosition)});
+}
+
+function clickIfPlaceHolder(row, minPosition, maxPosition) {
+	if (hasClass(row, 'loader-placeholder')) {
+		var rowPosition = row.offsetTop;
+		if (rowPosition > minPosition && rowPosition < maxPosition) {
+			row.onclick();
 		}
+	}	
+}
+
+function forChildren(parent, f) {
+	var children = parent.children;
+	for (var i = 0; i < children.length; i++) {
+		var child = children[i];
+		f(child);
+		forChildren(child, f);
 	}
 }
 
@@ -52,17 +61,18 @@ function getLoadedRowHeight(contentScrolled) {
 }
 
 function getElementHeight(contentScrolled, className) {
-	var rows = getAllRows(contentScrolled);
-	for (var i = 0; rows.length > i; i++) {
-		if (hasClass(rows[i], className)) {
-			return rows[i].offsetHeight;
+	var children = contentScrolled.children;
+	for (var i = 0; i < children.length; i++) {
+		var child = children[i];
+		if (hasClass(child, className)) {
+			return child.offsetHeight;
+		}
+		var found = getElementHeight(child, className);
+		if (!isNaN(found)) {
+			return found;
 		}
 	}
-}
-
-function getAllRows(contentScrolled) {
-	// TODO: reference to 'tr' is not generic enough
-	return contentScrolled.getElementsByTagName('tr');
+	return NaN;
 }
 
 function error(text) {
