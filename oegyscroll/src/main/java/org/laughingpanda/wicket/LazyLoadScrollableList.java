@@ -46,7 +46,7 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
         blockCountExcludingRemainderBlock = rowCount / blockSize;
         remainder = rowCount - blockCountExcludingRemainderBlock * blockSize;
         if (remainder == 0 && blockCountExcludingRemainderBlock > 0) {
-            remainder = 1;
+            remainder = blockSize;
             blockCountExcludingRemainderBlock--;
         }
     }

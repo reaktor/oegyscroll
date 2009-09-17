@@ -1,7 +1,10 @@
 package org.laughingpanda.wicket;
 
+import static java.util.Collections.emptyList;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import jdave.junit4.JDaveRunner;
@@ -14,7 +17,14 @@ import org.junit.runner.RunWith;
 
 @RunWith(JDaveRunner.class)
 public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadScrollableListTestPage> {
-    List<String> testData = new ArrayList<String>(Arrays.asList("row1", "row2"));
+    List<String> testData = emptyList();
+
+	private void createTestData(int rowCount) {
+		testData = new ArrayList<String>(rowCount);
+		for (int i = 0; i < rowCount ; i++) {
+			testData.add(new String("row" + i));
+		}
+	}
     int blockSize = 4;
 
     @SuppressWarnings("unchecked")
@@ -22,7 +32,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
     protected LazyLoadScrollableListTestPage newComponent(final String id, final IModel model) {
         return new LazyLoadScrollableListTestPage(testData, blockSize);
     }
-
+    
     public class AnyScroller {
         public LazyLoadScrollableListTestPage create() {
             return startComponent();
@@ -55,11 +65,13 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
 
     public class WhenDatasetIsLessThanBlockSize {
         public LazyLoadScrollableListTestPage create() {
+        	blockSize = 4;
+        	createTestData(3);
             return startComponent();
         }
 
         public void allRowsAreRendered() {
-            specify(getRenderedRows().size(), 2);
+            specify(getRenderedRows().size(), 3);
         }
 
         public void placeHolderIsHidden() {
@@ -70,43 +82,100 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         	verifyIndexes();
         }
     }
-
-    public class WhenDatasetIsLargerThanBlockSize {
+    
+    public class WhenDatasetIsEqualToBlockSize {
         public LazyLoadScrollableListTestPage create() {
-            blockSize = 1;
+        	blockSize = 4;
+        	createTestData(blockSize);
             return startComponent();
         }
 
-        public void firstBlockIsRendered() {
-            specify(getRenderedRows().size(), 1);
+        public void allRowsAreRendered() {
+            specify(getRenderedRows().size(), 4);
         }
 
+        public void placeHolderIsHidden() {
+            specify(getPlaceholders().get(0).isVisible(), false);
+        }
+        
+        public void providesIndexForRows() {
+        	verifyIndexes();
+        }
+    }
+    
+    public abstract class WhenDataSetIsLargerThanBlockSize {
         public void placeHolderForFirstBlockIsHidden() {
             specify(getPlaceholders().get(0).isVisible(), false);
         }
-
+    	
         public void placeHoldersForOtherBlocksAreShown() {
             specify(getPlaceholders().get(1).isVisible());
-        }
-
-        public void secondBlockIsRenderedWhenClicked() {
-            showSecondBlock();
-            specify(getPlaceholders().get(1).isVisible(), false);
-            specify(getRenderedRows().size(), 2);
         }
         
         public void providesConsecutiveIndexesForRowsOnDifferentBlocks() {
             showSecondBlock();
         	verifyIndexes();
         }
-
-		private void showSecondBlock() {
-			wicket.executeAjaxEvent(getPlaceholders().get(1), "onclick");
-		}
     }
+
+    public class WhenDatasetIsTwoTimesBlockSize extends WhenDataSetIsLargerThanBlockSize {
+        public LazyLoadScrollableListTestPage create() {
+            blockSize = 4;
+            createTestData(8);
+            return startComponent();
+        }
+
+        public void firstBlockIsRendered() {
+            specify(getRenderedRows().size(), 4);
+        }
+
+        public void secondBlockIsRenderedWhenClicked() {
+            showSecondBlock();
+            specify(getPlaceholders().get(1).isVisible(), false);
+            specify(getRenderedRows().size(), 8);
+        }       
+    }
+    
+    public class WhenDataSetIsBlockSizePlus1 {
+        public LazyLoadScrollableListTestPage create() {
+            blockSize = 5;
+            createTestData(6);
+            return startComponent();
+        }
+
+        public void remainderBlockIsRendered() {
+            specify(getRenderedRows().size(), 1);
+        }
+
+        public void secondBlockIsRenderedWhenClicked() {
+            showSecondBlock();
+            specify(getPlaceholders().get(1).isVisible(), false);
+            specify(getRenderedRows().size(), 6);
+        }       
+    }
+    
+    public class WhenDataSetIsBlockSizePlus2 {
+        public LazyLoadScrollableListTestPage create() {
+            blockSize = 5;
+            createTestData(7);
+            return startComponent();
+        }
+
+        public void remainderBlockIsRendered() {
+            specify(getRenderedRows().size(), 2);
+        }
+
+        public void secondBlockIsRenderedWhenClicked() {
+            showSecondBlock();
+            specify(getPlaceholders().get(1).isVisible(), false);
+            specify(getRenderedRows().size(), 7);
+        }       
+    }
+
 
     public class WhenUpdatingListUsingAjax {
         public LazyLoadScrollableListTestPage create() {
+        	createTestData(2);
             return startComponent();
         }
 
@@ -140,6 +209,10 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         return selectFirst(LazyLoadScrollableList.class).from(context);
     }
     
+	private void showSecondBlock() {
+		wicket.executeAjaxEvent(getPlaceholders().get(1), "onclick");
+	}
+	
 	private void verifyIndexes() {
 		specify(getRenderedIndexes().get(0).getDefaultModelObjectAsString(), should.equal("0"));
     	specify(getRenderedIndexes().get(1).getDefaultModelObjectAsString(), should.equal("1"));
