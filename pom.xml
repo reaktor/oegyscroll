@@ -3,7 +3,7 @@
     <groupId>org.laughingpanda.oegyscroll</groupId>
     <artifactId>oegyscroll-root</artifactId>
     <packaging>pom</packaging>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
     <name>oegyscroll</name>
     <url>http://www.laughingpanda.org</url>
     <modules>
@@ -16,6 +16,11 @@
             <name>Laughing Panda</name>
             <url>scpexe://ssh.laughingpanda.org:/var/www/localhost/htdocs/maven2</url>
         </repository>
+        <snapshotRepository>
+            <id>Laughing Panda SCP</id>
+            <name>Laughing Panda</name>
+            <url>scpexe://ssh.laughingpanda.org:/var/www/localhost/htdocs/maven2/snapshots</url>
+        </snapshotRepository>
     </distributionManagement>
     <scm>
         <connection>scm:svn:https://svn.laughingpanda.org/svn/oegyscroll/trunk</connection>
