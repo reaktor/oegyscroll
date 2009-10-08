@@ -2,18 +2,15 @@ package org.laughingpanda.wicket;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.wicket.ResourceReference;
+import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.util.template.PackagedTextTemplate;
-import org.apache.wicket.util.template.TextTemplateHeaderContributor;
 
-public abstract class LazyLoadScrollableList<T extends Serializable> extends WebMarkupContainer {
+public abstract class LazyLoadScrollableList<T extends Serializable> extends WebMarkupContainer implements IHeaderContributor {
     private int remainder;
     private int blockCountExcludingRemainderBlock;
     private final IDataProvider<T> dataProvider;
@@ -26,7 +23,6 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
         this.dataProvider = dataProvider;
         add(new ScrolledContentView<T>("scrolledContent", blocks));
         setMarkupId("scroller" + System.identityHashCode(this));
-        addJavaScript();
         setOutputMarkupId(true);
     }
 
@@ -51,26 +47,24 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
         }
     }
 
-	private void addJavaScript() {
-		PackagedTextTemplate template = new PackagedTextTemplate(LazyLoadScrollableList.class, "scroller.js");
-		add(TextTemplateHeaderContributor.forJavaScript(template, getJavascriptVariablesModel()));
-	}
-
-    private IModel<Map<String, Object>> getJavascriptVariablesModel() {
-        return new LoadableDetachableModel<Map<String, Object>>() {
-            @Override
-            protected Map<String, Object> load() {
-            	Map<String, Object> jsVariables = new HashMap<String, Object>();
-            	jsVariables.put("scrollerId", getMarkupId());
-            	jsVariables.put("scrolledContentId", get("scrolledContent").getMarkupId());
-                return jsVariables;
-            }
-        };
-    }
-
     protected abstract void populateRow(final WebMarkupContainer rowContainer, final int index, final T modelObject);
 
     public IDataProvider<T> getDataProvider() {
         return dataProvider;
+    }    
+    
+    public void renderHead(IHeaderResponse response) {
+        addScrollableListJavascript(response);
+        addContentLoaderInitializationJavascript(response);
+    }
+
+    private void addScrollableListJavascript(IHeaderResponse response) {
+        response.renderJavascriptReference(new ResourceReference(LazyLoadScrollableList.class, "scroller.js"));
+    }
+
+    private void addContentLoaderInitializationJavascript(IHeaderResponse response) {
+        final String scrollerId = getMarkupId();
+        final String scrolledContentId = get("scrolledContent").getMarkupId();
+        response.renderOnDomReadyJavascript("initContentLoader(\""+scrollerId+"\", \""+scrolledContentId+"\");");
     }
 }

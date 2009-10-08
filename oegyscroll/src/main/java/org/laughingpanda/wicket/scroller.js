@@ -1,5 +1,3 @@
-initContentLoader("${scrollerId}", "${scrolledContentId}");
-
 function initContentLoader(scrollerId, scrolledContentId) {
 	scheduleScrollPositionUpdate(scrollerId, scrolledContentId);
 }
@@ -43,10 +41,10 @@ function clickIfPlaceHolder(row, minPosition, maxPosition) {
 	}	
 }
 
-function forChildren(parent, f) {
-	var children = parent.children;
-	for (var i = 0; i < children.length; i++) {
-		var child = children[i];
+function forChildren(parentElement, f) {
+	var parentElementChildren = parentElement.childNodes;
+	for (var i = 0; i < parentElementChildren.length; i++) {
+		var child = parentElementChildren[i];
 		f(child);
 		forChildren(child, f);
 	}
@@ -61,10 +59,9 @@ function getLoadedRowHeight(contentScrolled) {
 }
 
 function getElementHeight(contentScrolled, className) {
-	var children = contentScrolled.children;
-	for (var i = 0; i < children.length; i++) {
-		var child = children[i];
-		if (hasClass(child, className)) {
+	var contentScrolledChildren = contentScrolled.childNodes;
+	for (var i = 0; i < contentScrolledChildren.length; i++) {
+		var child = contentScrolledChildren[i];		if (hasClass(child, className)) {
 			return child.offsetHeight;
 		}
 		var found = getElementHeight(child, className);
@@ -76,7 +73,7 @@ function getElementHeight(contentScrolled, className) {
 }
 
 function error(text) {
-	if (console) {
+	if (typeof(window["console"]) != "undefined") {
 		console.log(text);
 	}
 }
