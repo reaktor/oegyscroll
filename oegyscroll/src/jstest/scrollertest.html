@@ -18,12 +18,18 @@
 <script>
   $(document).ready(function(){
     
-test("clicks visible placeholders", function() {
+test("clicks visible placeholders at start", function() {
 	checkScrollPosition('scroller', 'content');
 	equals( true, $('tr#placeholder-1').hasClass('clicked'), "First placeholder should be clicked" );
 	equals( false, $('tr#placeholder-2').hasClass('clicked'), "Second placeholder should not be clicked" );  
-
 });
+
+test("clicks visible placeholders when scrolling", function() {
+	$('#scroller').attr('scrollTop', 100);
+	checkScrollPosition('scroller', 'content');
+	equals( true, $('tr#placeholder-2').hasClass('clicked'), "Second placeholder should be clicked" );
+});
+
   });
 </script>
   

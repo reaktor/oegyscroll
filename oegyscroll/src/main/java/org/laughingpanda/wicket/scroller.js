@@ -3,7 +3,12 @@ function initContentLoader(scrollerId, scrolledContentId) {
 }
 
 function scheduleScrollPositionUpdate(scrollerId, scrolledContentId) {
-	setTimeout('checkScrollPosition("' + scrollerId+ '", "' + scrolledContentId + '")', 1000);
+	setTimeout('checkScrollPositionRepeatedly("' + scrollerId+ '", "' + scrolledContentId + '")', 1000);
+}
+
+function checkScrollPositionRepeatedly(scrollerId, scrolledContentId) {
+	checkScrollPosition(scrollerId, scrolledContentId);
+	scheduleScrollPositionUpdate(scrollerId, scrolledContentId);
 }
 
 function checkScrollPosition(scrollerId, scrolledContentId) {
@@ -12,7 +17,6 @@ function checkScrollPosition(scrollerId, scrolledContentId) {
 	if (scroller && contentScrolled) {
 		refreshPlaceholders(scroller, contentScrolled);
 	}
-	scheduleScrollPositionUpdate(scrollerId, scrolledContentId);
 }
 
 function refreshPlaceholders(scroller, contentScrolled) {

@@ -1,0 +1,2 @@
+- Standalone demo page using JQuery
+- Reimplement Javascript using JQuery. Backed by scrollertest.html.
