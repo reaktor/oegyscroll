@@ -1,2 +1,1 @@
-- Standalone demo page using JQuery
-- Reimplement Javascript using JQuery. Backed by scrollertest.html.
+- Update project structure and build to support standalone demo and client-side library
