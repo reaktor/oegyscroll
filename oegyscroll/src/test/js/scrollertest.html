@@ -24,6 +24,36 @@
 		$('#placeholder-' + id).get(0).onclick=function(){clicked[id] = true};
 	}
 	
+	function createBlock(contentCreator) {
+		var block = $("<tbody></tbody>")
+		contentCreator(block);
+		block.appendTo('table#content');
+		return block;
+	}
+	
+	function createPlaceholder(id) {
+		return $('<tr id="' + id + '" class="loader-placeholder"><td>Placeholder ' + id + '</td></tr>');
+	}
+	
+	function createRow(text) {
+		return $('<tr class="loaded-row"><td>' + text + '</td></tr>');
+	}
+	
+	function createPlaceHolderBlock(id) {
+		return createBlock(function(block){createPlaceholder(id).appendTo(block)});
+	}
+	
+	function createLoadedBlock(first, last) {
+		return createBlock(function(block){
+			for (index = first; index < last; index ++) {
+				createRow("Row " + index).appendTo(block)
+			}
+		});
+	}
+	
+	createLoadedBlock(1, 2);
+	createPlaceHolderBlock('placeholder-1');
+	createPlaceHolderBlock('placeholder-2');
 	bindClick(1);
 	bindClick(2);
     
@@ -38,34 +68,19 @@
 		checkScrollPosition('scroller', 'content');
 		equals(clicked[2], true, "Second placeholder should be clicked" );
 	});
+	
   });
 </script>
   
 </head>
 <body>
-  <h1 id="qunit-header">Oegyscroll Javascript Test</h1>
+ <h1 id="qunit-header">Oegyscroll Javascript Test</h1>
  <h2 id="qunit-banner"></h2>
  <h2 id="qunit-userAgent"></h2>
  <ol id="qunit-tests"></ol>
 	<div id="scroller" class="data-list">
 	  	<div class="scrollable-area">
 		  	<table id="content">
-				<tbody>
-					<tr class="loaded-row">
-				   		<td>Row 1</td>
-				   		<td>Row 2</td>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr class="loader-placeholder" id="placeholder-1">
-				   		<td>Placeholder for rows 3..4</td>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr class="loader-placeholder" id="placeholder-2">
-				   		<td>Placeholder for rows 5..6</td>
-					</tr>
-				</tbody>
 			</table>
 		</div>
 	</div>
