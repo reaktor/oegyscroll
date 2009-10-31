@@ -17,14 +17,14 @@ function createBlock(contentCreator) {
 	block.appendTo(this.contentArea);
 	return block;
 };
-function createPlaceholder(id) {
-	return $('<tr id="' + id + '" class="loader-placeholder" style="height: ' + this.blockHeight + 'px"><td>Placeholder ' + id + '</td></tr>');
+function createPlaceholder(id, content) {
+	return $('<tr id="' + id + '" class="loader-placeholder" style="height: ' + this.blockHeight + 'px">'+content+'</tr>');
 };
-function createRow(text) {
-	return $('<tr class="loaded-row" style="height: ' + this.rowHeight + 'px"><td>' + text + '</td></tr>');
+function createRow(content) {
+	return $('<tr class="loaded-row" style="height: ' + this.rowHeight + 'px">' + content + '</tr>');
 };	
-function createPlaceHolderBlock(id, onclickFunction) {
-	var placeHolder = this.createPlaceholder(id);		
+function createPlaceHolderBlock(id, content, onclickFunction) {
+	var placeHolder = this.createPlaceholder(id, content);		
 	var block = this.createBlock(function(block){
 		placeHolder.appendTo(block)
 	});

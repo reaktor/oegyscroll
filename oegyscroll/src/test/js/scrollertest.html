@@ -51,13 +51,14 @@
 	
 	function createTestPlaceHolder(i) {
 		clicked[i] = false;
-		return oegy.createPlaceHolderBlock('placeholder-' + i, function(){clicked[i] = true});
+		id = 'placeholder-' + i;
+		return oegy.createPlaceHolderBlock(id, '<td>Placeholder ' + id + '</td>', function(){clicked[i] = true});
 	}	
 	
 	function createLoadedBlock(first, last) {
 		return oegy.createBlock(function(block){
 			for (index = first; index <= last; index ++) {
-				oegy.createRow("Row " + index).appendTo(block)
+				oegy.createRow("<td>Row " + index + "</td>").appendTo(block)
 			}
 		});
 	}	
