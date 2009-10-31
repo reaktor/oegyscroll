@@ -19,24 +19,25 @@
   var clicked = new Array();
 
   $(document).ready(function(){
+	function bindClick(id) {
+		clicked[id] = false;
+		$('#placeholder-' + id).get(0).onclick=function(){clicked[id] = true};
+	}
 	
-function isClicked(id) {
-	if (clicked[id]) return true;
-	return false;
-}
+	bindClick(1);
+	bindClick(2);
     
-test("clicks visible placeholders at start", function() {
-	checkScrollPosition('scroller', 'content');
-	equals(isClicked(1), true, "First placeholder should be clicked" );
-	equals(isClicked(2), false, "Second placeholder should not be clicked" );  
-});
+	test("clicks visible placeholders at start", function() {
+		checkScrollPosition('scroller', 'content');
+		equals(clicked[1], true, "First placeholder should be clicked" );
+		equals(clicked[2], false, "Second placeholder should not be clicked" );  
+	});
 
-test("clicks visible placeholders when scrolling", function() {
-	$('#scroller').attr('scrollTop', 100);
-	checkScrollPosition('scroller', 'content');
-	equals(isClicked(2), true, "Second placeholder should be clicked" );
-});
-
+	test("clicks visible placeholders when scrolling", function() {
+		$('#scroller').attr('scrollTop', 100);
+		checkScrollPosition('scroller', 'content');
+		equals(clicked[2], true, "Second placeholder should be clicked" );
+	});
   });
 </script>
   
@@ -56,12 +57,12 @@ test("clicks visible placeholders when scrolling", function() {
 					</tr>
 				</tbody>
 				<tbody>
-					<tr class="loader-placeholder" id="placeholder-1" onclick="$(this).addClass('clicked'); clicked[1]=true;">
+					<tr class="loader-placeholder" id="placeholder-1">
 				   		<td>Placeholder for rows 3..4</td>
 					</tr>
 				</tbody>
 				<tbody>
-					<tr class="loader-placeholder" id="placeholder-2" onclick="$(this).addClass('clicked'); clicked[2]=true;">
+					<tr class="loader-placeholder" id="placeholder-2">
 				   		<td>Placeholder for rows 5..6</td>
 					</tr>
 				</tbody>
