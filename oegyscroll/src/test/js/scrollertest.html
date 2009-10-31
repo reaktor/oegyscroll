@@ -21,7 +21,7 @@
 
 	test("clicks visible placeholders when scrolling", function() {
 		withFullLoadedBlock();
-		$('#scroller').attr('scrollTop', 10);
+		oegy.scrollTo(10);
 		checkScrollPosition('scroller', 'content');
 		equals(clicked[2], true, "Second placeholder should be clicked" );
 		equals(clicked[3], false, "Third placeholder should not be clicked" );  
@@ -29,20 +29,64 @@
 	
 	test("clicks only visible placeholders when scrolling further", function() {
 		withFullLoadedBlock();
-		$('#scroller').attr('scrollTop', 200);
+		oegy.scrollTo(200);
 		checkScrollPosition('scroller', 'content');
 		equals(clicked[3], false, "3rd placeholder should not be clicked" );  
 		equals(clicked[4], true, "4th placeholder should be clicked" );  
 		equals(clicked[5], true, "5th placeholder should be clicked" );  
 		equals(clicked[6], false, "6th placeholder should not be clicked" );  
 	});
+
+	test("when initializing with data and remainder block", function() {
+		createOegyWithData(5);
+		equals(oegy.remainder, 1, "remainder");
+		equals(oegy.blockCount, 2, "block count");
+		equals($('.loaded-row').size(), 1, "first row is shown");
+		equals($('.loaded-row').attr("id"), "row-1", "row content");
+		equals($('.loaded-row').html(), "<td>row 1</td>", "row content");
+		equals($('.loader-placeholder').size(), 2, "two placeholders are shown");
+		equals($('.loader-placeholder').html(), "<td>placeholder</td>", "placeholder content");
+	});
+	
+	test("when initializing with data without remainder block", function() {
+		createOegyWithData(6);
+		equals(oegy.remainder, 2, "remainder equals blocksize");
+		equals(oegy.blockCount, 2, "block count");
+	});
+		
+	test("when replacing placeholders with content rows", function() {
+		createOegyWithData(5);
+		oegy.refresh();
+		checkContentReplace();
+	});
+	
+	test("when started autorefresh", function() {
+		createOegyWithData(50);
+		oegy.autorefresh();
+		checkContentReplace();
+	});
+	
 	
 	var oegy;
 	
-	function withFullLoadedBlock() {
+	function checkContentReplace() {
+		equals($('.loaded-row').size(), 5, "visible placeholders are replaced with data");
+		equals($('#row-2').html(), "<td>row 2</td>", "row 2 content");
+	}
+	
+	function createOegyWithData(count) {
+		createOegy();
+		oegy.init(count, function(row){return "<td>row " + (row + 1) + "</td>"}, "<td>placeholder</tr>");
+	}
+	
+	function createOegy() {
 		if (oegy) oegy.main.remove();
 		oegy = new OegyScroll(100, 25, 2);
 		oegy.main.appendTo($('body'));
+	}
+	
+	function withFullLoadedBlock() {
+		createOegy();
 		createLoadedBlock(1, 2);
 		for (var i = 1; i <= 10; i++) {
 			createTestPlaceHolder(i);
