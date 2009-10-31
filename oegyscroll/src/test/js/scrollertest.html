@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="qunit.css" type="text/css" media="screen" />
 <script type="text/javascript" src="jquery-1.3.2.js"></script>
 <script type="text/javascript" src="qunit.js"></script>
+<script type="text/javascript" src="oegyscroll.js"></script>
 <script type="text/javascript" src="../../main/java/org/laughingpanda/wicket/scroller.js"></script>
 <script language="javascript">
   var clicked = new Array();
@@ -36,66 +37,30 @@
 		equals(clicked[6], false, "6th placeholder should not be clicked" );  
 	});
 	
+	var oegy;
+	
 	function withFullLoadedBlock() {
-		$('div#scroller').remove()
-		var content = createOegyScroll();		
-		createLoadedBlock(1, 2).appendTo(content);
+		if (oegy) oegy.main.remove();
+		oegy = new OegyScroll(100, 25, 2);
+		oegy.main.appendTo($('body'));
+		createLoadedBlock(1, 2);
 		for (var i = 1; i <= 10; i++) {
-			createTestPlaceHolder(i).appendTo(content);
+			createTestPlaceHolder(i);
 		}
 	}
 	
 	function createTestPlaceHolder(i) {
 		clicked[i] = false;
-		onclick = function(){clicked[i] = true};
-		return createPlaceHolderBlock('placeholder-' + i, onclick);
-	}	
-			
-	blockHeight = 50;
-	blockSize = 2;
-	
-	function createOegyScroll() {
-		var oegyScroll = $('<div id="scroller" style="height:100px;overflow:auto;border:1px solid #ccc;"></div>').appendTo($('body'))
-		var scrollable = $('<div class="scrollable-area"></div>').appendTo(oegyScroll)
-		var contentTable = $('<table id="content"></table>').appendTo(scrollable)
-		return contentTable;
+		return oegy.createPlaceHolderBlock('placeholder-' + i, function(){clicked[i] = true});
 	}	
 	
-	function content() {
-		return $('table#content')	
-	}
-	
-	function createBlock(contentCreator) {
-		var block = $("<tbody></tbody>")
-		contentCreator(block);
-		return block;
-	}
-	
-	function createPlaceholder(id) {
-		return $('<tr id="' + id + '" class="loader-placeholder" style="height: ' + blockHeight + 'px"><td>Placeholder ' + id + '</td></tr>');
-	}
-	
-	function createRow(text) {
-		rowHeight = blockHeight / blockSize;
-		return $('<tr class="loaded-row" style="height: ' + rowHeight + 'px"><td>' + text + '</td></tr>');
-	}
-
 	function createLoadedBlock(first, last) {
-		return createBlock(function(block){
+		return oegy.createBlock(function(block){
 			for (index = first; index <= last; index ++) {
-				createRow("Row " + index).appendTo(block)
+				oegy.createRow("Row " + index).appendTo(block)
 			}
 		});
-	}
-	
-	function createPlaceHolderBlock(id, onclickFunction) {
-		var placeHolder = createPlaceholder(id);		
-		var block = createBlock(function(block){
-			placeHolder.appendTo(block)
-		});
-		placeHolder.get(0).onclick=onclickFunction;
-		return block;
-	}		
+	}	
   });
 </script>
   
