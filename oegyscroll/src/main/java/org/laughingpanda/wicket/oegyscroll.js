@@ -3,6 +3,7 @@ function OegyScroll(blockSize, height, rowHeight, id) {
 	this.rowHeight = rowHeight;
 	this.blockSize = blockSize;
 	this.id = (id) ? id : "scroller";
+	this.contentId = "content";
 }	
 OegyScroll.prototype.createBlock = function (contentCreator) {
 	var block = $("<tbody></tbody>")
@@ -17,7 +18,7 @@ OegyScroll.prototype.generateMarkup = function() {
 	this.main = $('<div style="height:'+this.height+'px;overflow:auto;border:1px solid #ccc;"></div>');
 	this.main.attr("id", this.id);	
 	this.scrollable = $('<div class="scrollable-area"></div>').appendTo(this.main);
-	this.contentArea = $('<table id="content"></table>').appendTo(this.scrollable);
+	this.contentArea = $('<table id="' + this.contentId + '"></table>').appendTo(this.scrollable);
 }	
 OegyScroll.prototype.createRow = function (content) {
 	return $('<tr class="loaded-row" style="height: ' + this.rowHeight + 'px">' + content + '</tr>');
@@ -30,7 +31,14 @@ OegyScroll.prototype.createPlaceHolderBlock = function(id, content, onclickFunct
 	placeHolder.get(0).onclick=onclickFunction;
 	return block;
 }
+OegyScroll.prototype.checkInit = function() {
+	if (!this.main) {
+		this.main=$("#" + this.id);
+		this.contentArea=$("#" + this.contentId, this.main);
+	}
+}
 OegyScroll.prototype.init = function(rowCount, rowFetcher, placeHolderContent) {
+	this.checkInit();
 	var oegy = this;
 	this.remainder = rowCount % this.blockSize;
 	if (this.remainder == 0) this.remainder = this.blockSize;

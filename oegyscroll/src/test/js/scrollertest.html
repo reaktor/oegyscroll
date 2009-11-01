@@ -67,12 +67,19 @@
 		equals(oegy.main.attr("id"), "testId", "explicit");
 	});
 	
+	test("when adding five rows of data to pre-generated markup", function() {
+		createOegy();
+		oegy = new OegyScroll(2);
+		addData(5);
+		checkInitialDataWithRemainderBlock();		
+	});
+	
 	test("with autorefresh", function() {
 		createOegyWithData(5);
 		oegy.autorefresh();
 		checkContentReplace();
 	});
-	
+		
 	
 	var oegy;
 	
