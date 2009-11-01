@@ -47,6 +47,17 @@
 		equals(oegy.remainder, 2, "remainder equals blocksize");
 		equals(oegy.blockCount, 2, "block count");
 	});
+	
+	test("when fetching data by block", function() {
+		createOegyWithFixedSize();
+		blockFetcher = function(oegy, block, start, end) {
+			for (row = start; row < end; row++) {
+				oegy.createRow("<td>row " + (row + 1) + "</td>").attr("id", "row-" + (row+1)).appendTo(block);
+			}
+		}
+		oegy.initFetchByBlock(5, blockFetcher, "<td>placeholder</tr>");		
+		checkInitialDataWithRemainderBlock();
+	});
 		
 	test("when replacing placeholders with content rows", function() {
 		createOegyWithData(5);

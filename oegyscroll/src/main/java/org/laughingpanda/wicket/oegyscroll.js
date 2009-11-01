@@ -38,37 +38,42 @@ OegyScroll.prototype.checkInit = function() {
 	}
 }
 OegyScroll.prototype.init = function(rowCount, rowFetcher, placeHolderContent) {
+	this.initFetchByBlock(rowCount, function(oegy, block, start, end) {
+		for (row = start; row < end; row++) {
+			oegy.createRow(rowFetcher(row)).attr("id", "row-" + (row+1)).appendTo(block);
+		}
+	}, placeHolderContent);
+}
+OegyScroll.prototype.initFetchByBlock = function(rowCount, blockFetcher, placeHolderContent) {
 	this.checkInit();
 	this.contentArea.empty();
 	var oegy = this;
 	this.remainder = rowCount % this.blockSize;
 	if (this.remainder == 0) this.remainder = this.blockSize;
 	this.createBlock(function(block) {
-		oegy.appendRowsToBlock(block, 0, oegy.remainder, rowFetcher);
+		oegy.appendRowsToBlock(block, 0, oegy.remainder, blockFetcher);
 	});
 	this.blockCount = (rowCount - this.remainder) / this.blockSize;
 	for (i = 0; i < this.blockCount; i++) {
-		this.createAutomaticPlaceholder(i, rowFetcher, placeHolderContent);
+		this.createAutomaticPlaceholder(i, blockFetcher, placeHolderContent);
 	}
 }
-OegyScroll.prototype.createAutomaticPlaceholder = function(blockNumber, rowFetcher, content) {
+OegyScroll.prototype.createAutomaticPlaceholder = function(blockNumber, blockFetcher, content) {
 	var oegy = this;
 	this.createPlaceHolderBlock('placeholder-' + blockNumber, content, function() {
-		oegy.replacePlaceholderWithData($(this), blockNumber, rowFetcher);
+		oegy.replacePlaceholderWithData($(this), blockNumber, blockFetcher);
 	});
 }
-OegyScroll.prototype.replacePlaceholderWithData = function(placeholder, blockNumber, rowFetcher) {
+OegyScroll.prototype.replacePlaceholderWithData = function(placeholder, blockNumber, blockFetcher) {
 	block = placeholder.parent();
 	offset = blockNumber * this.blockSize;
 	start = offset + this.remainder;
 	end = offset + this.blockSize + this.remainder;
-	this.appendRowsToBlock(block, start, end, rowFetcher);
+	this.appendRowsToBlock(block, start, end, blockFetcher);
 	placeholder.remove();
 }
-OegyScroll.prototype.appendRowsToBlock = function(block, start, end, rowFetcher) {
-	for (row = start; row < end; row++) {
-		this.createRow(rowFetcher(row)).attr("id", "row-" + (row+1)).appendTo(block);
-	}
+OegyScroll.prototype.appendRowsToBlock = function(block, start, end, blockFetcher) {
+	blockFetcher(this, block, start, end);
 }
 OegyScroll.prototype.scrollTo = function(yPos) {
 	this.main.attr('scrollTop', yPos);
