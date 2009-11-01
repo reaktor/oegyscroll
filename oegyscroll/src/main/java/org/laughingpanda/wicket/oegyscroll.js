@@ -39,6 +39,7 @@ OegyScroll.prototype.checkInit = function() {
 }
 OegyScroll.prototype.init = function(rowCount, rowFetcher, placeHolderContent) {
 	this.checkInit();
+	this.contentArea.empty();
 	var oegy = this;
 	this.remainder = rowCount % this.blockSize;
 	if (this.remainder == 0) this.remainder = this.blockSize;

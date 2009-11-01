@@ -56,7 +56,7 @@
 
 	test("without setting rowheight and height", function() {
 		createOegy();
-		addData(5);
+		initData(5);
 		checkInitialDataWithRemainderBlock();
 	});
 	
@@ -70,17 +70,22 @@
 	test("when adding five rows of data to pre-generated markup", function() {
 		createOegy();
 		oegy = new OegyScroll(2);
-		addData(5);
+		initData(5);
 		checkInitialDataWithRemainderBlock();		
 	});
+	
+	test("when re-initializing dataset", function() {
+		createOegyWithData(2);
+		initData(10);
+		equals($("tbody").size(), 5, "old data is replaced");
+	});	
 	
 	test("with autorefresh", function() {
 		createOegyWithData(5);
 		oegy.autorefresh();
 		checkContentReplace();
 	});
-		
-	
+			
 	var oegy;
 	
 	function checkInitialDataWithRemainderBlock() {
@@ -100,10 +105,10 @@
 	
 	function createOegyWithData(count) {
 		createOegyWithFixedSize();
-		addData(count);
+		initData(count);
 	}
 	
-	function addData(count) {
+	function initData(count) {
 		oegy.init(count, function(row){return "<td>row " + (row + 1) + "</td>"}, "<td>placeholder</tr>");
 	}
 	
