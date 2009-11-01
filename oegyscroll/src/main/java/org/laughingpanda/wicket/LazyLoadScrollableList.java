@@ -59,12 +59,12 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
     }
 
     private void addScrollableListJavascript(IHeaderResponse response) {
-        response.renderJavascriptReference(new ResourceReference(LazyLoadScrollableList.class, "scroller.js"));
+        response.renderJavascriptReference(new ResourceReference(LazyLoadScrollableList.class, "oegyscroll-updater.js"));
     }
 
     private void addContentLoaderInitializationJavascript(IHeaderResponse response) {
         final String scrollerId = getMarkupId();
         final String scrolledContentId = get("scrolledContent").getMarkupId();
-        response.renderOnDomReadyJavascript("initContentLoader(\""+scrollerId+"\", \""+scrolledContentId+"\");");
+        response.renderOnDomReadyJavascript("new OegyScrollUpdater(\""+scrollerId+"\", \""+scrolledContentId+"\").scheduleScrollPositionUpdate();");
     }
 }

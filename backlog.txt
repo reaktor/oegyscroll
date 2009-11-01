@@ -1,1 +1,1 @@
-- Update project structure and build to support standalone demo and client-side library
+- More impressive standalone demo would be nice

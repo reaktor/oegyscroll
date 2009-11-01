@@ -6,15 +6,15 @@
 <link rel="stylesheet" href="qunit.css" type="text/css" media="screen" />
 <script type="text/javascript" src="jquery-1.3.2.js"></script>
 <script type="text/javascript" src="qunit.js"></script>
-<script type="text/javascript" src="oegyscroll.js"></script>
-<script type="text/javascript" src="../../main/java/org/laughingpanda/wicket/scroller.js"></script>
+<script type="text/javascript" src="../../main/java/org/laughingpanda/wicket/oegyscroll.js"></script>
+<script type="text/javascript" src="../../main/java/org/laughingpanda/wicket/oegyscroll-updater.js"></script>
 <script language="javascript">
   var clicked = new Array();
 
   $(document).ready(function(){	
 	test("clicks visible placeholders at start", function() {
 		withFullLoadedBlock();
-		checkScrollPosition('scroller', 'content');
+		new OegyScrollUpdater('scroller', 'content').checkScrollPosition();
 		equals(clicked[1], true, "First placeholder should be clicked" );
 		equals(clicked[2], false, "Second placeholder should not be clicked" );  
 	});
@@ -22,7 +22,7 @@
 	test("clicks visible placeholders when scrolling", function() {
 		withFullLoadedBlock();
 		oegy.scrollTo(10);
-		checkScrollPosition('scroller', 'content');
+		new OegyScrollUpdater('scroller', 'content').checkScrollPosition();
 		equals(clicked[2], true, "Second placeholder should be clicked" );
 		equals(clicked[3], false, "Third placeholder should not be clicked" );  
 	});
@@ -30,7 +30,7 @@
 	test("clicks only visible placeholders when scrolling further", function() {
 		withFullLoadedBlock();
 		oegy.scrollTo(200);
-		checkScrollPosition('scroller', 'content');
+		new OegyScrollUpdater('scroller', 'content').checkScrollPosition();
 		equals(clicked[3], false, "3rd placeholder should not be clicked" );  
 		equals(clicked[4], true, "4th placeholder should be clicked" );  
 		equals(clicked[5], true, "5th placeholder should be clicked" );  
@@ -39,13 +39,7 @@
 
 	test("when initializing with data and remainder block", function() {
 		createOegyWithData(5);
-		equals(oegy.remainder, 1, "remainder");
-		equals(oegy.blockCount, 2, "block count");
-		equals($('.loaded-row').size(), 1, "first row is shown");
-		equals($('.loaded-row').attr("id"), "row-1", "row content");
-		equals($('.loaded-row').html(), "<td>row 1</td>", "row content");
-		equals($('.loader-placeholder').size(), 2, "two placeholders are shown");
-		equals($('.loader-placeholder').html(), "<td>placeholder</td>", "placeholder content");
+		checkInitialDataWithRemainderBlock();
 	});
 	
 	test("when initializing with data without remainder block", function() {
@@ -59,9 +53,22 @@
 		oegy.refresh();
 		checkContentReplace();
 	});
+
+	test("without setting rowheight and height", function() {
+		createOegy();
+		addData(5);
+		checkInitialDataWithRemainderBlock();
+	});
 	
-	test("when started autorefresh", function() {
-		createOegyWithData(50);
+	test("component id", function() {
+		createOegy();
+		equals(oegy.main.attr("id"), "scroller", "default");
+		createOegy(100, 25, "testId");
+		equals(oegy.main.attr("id"), "testId", "explicit");
+	});
+	
+	test("with autorefresh", function() {
+		createOegyWithData(5);
 		oegy.autorefresh();
 		checkContentReplace();
 	});
@@ -69,24 +76,44 @@
 	
 	var oegy;
 	
+	function checkInitialDataWithRemainderBlock() {
+		equals(oegy.remainder, 1, "remainder");
+		equals(oegy.blockCount, 2, "block count");
+		equals($('.loaded-row').size(), 1, "first row is shown");
+		equals($('.loaded-row').attr("id"), "row-1", "row content");
+		equals($('.loaded-row').html(), "<td>row 1</td>", "row content");
+		equals($('.loader-placeholder').size(), 2, "two placeholders are shown");
+		equals($('.loader-placeholder').html(), "<td>placeholder</td>", "placeholder content");
+	}
+	
 	function checkContentReplace() {
 		equals($('.loaded-row').size(), 5, "visible placeholders are replaced with data");
 		equals($('#row-2').html(), "<td>row 2</td>", "row 2 content");
 	}
 	
 	function createOegyWithData(count) {
-		createOegy();
+		createOegyWithFixedSize();
+		addData(count);
+	}
+	
+	function addData(count) {
 		oegy.init(count, function(row){return "<td>row " + (row + 1) + "</td>"}, "<td>placeholder</tr>");
 	}
 	
-	function createOegy() {
+	function createOegyWithFixedSize() {
+		createOegy(100, 25);
+	}
+	
+	function createOegy(height, rowHeight, id) {
 		if (oegy) oegy.main.remove();
-		oegy = new OegyScroll(100, 25, 2);
+		oegy = new OegyScroll(2, height, rowHeight, id);
+		oegy.generateMarkup();
 		oegy.main.appendTo($('body'));
 	}
 	
+	
 	function withFullLoadedBlock() {
-		createOegy();
+		createOegyWithFixedSize();
 		createLoadedBlock(1, 2);
 		for (var i = 1; i <= 10; i++) {
 			createTestPlaceHolder(i);
@@ -107,6 +134,8 @@
 		});
 	}	
   });
+
+
 </script>
   
 </head>
