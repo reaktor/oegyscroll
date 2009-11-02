@@ -1,2 +1,1 @@
-- More impressive standalone demo would be nice
-- Work on OBD Google: add OegyScroll
+- Where to deploy the javascripts?

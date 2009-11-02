@@ -1,0 +1,5 @@
+DEST=valtone.com:juhajasatu.com/html
+JS_SOURCE=oegyscroll/src/main/java/org/laughingpanda/wicket
+scp -r standalone-demo/* $DEST/oegydemo
+scp $JS_SOURCE/oegyscroll.js $DEST/oegyscroll
+scp $JS_SOURCE/oegyscroll-updater.js $DEST/oegyscroll 
