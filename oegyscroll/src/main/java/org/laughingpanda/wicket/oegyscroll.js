@@ -34,8 +34,16 @@ OegyScroll.prototype.createPlaceHolderBlock = function(id, content, onclickFunct
 OegyScroll.prototype.checkInit = function() {
 	if (!this.main) {
 		this.main=$("#" + this.id);
-		this.contentArea=$("#" + this.contentId, this.main);
+		if (this.main.size() > 0) {
+			this.contentArea=$("#" + this.contentId, this.main);
+		} else {
+			this.generateMarkup();
+		}
 	}
+}
+OegyScroll.prototype.appendTo=function(body) {
+	this.checkInit();
+	this.main.appendTo(body);
 }
 OegyScroll.prototype.init = function(rowCount, rowFetcher, placeHolderContent) {
 	this.initFetchByBlock(rowCount, function(oegy, block, start, end) {

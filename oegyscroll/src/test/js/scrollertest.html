@@ -130,8 +130,7 @@
 	function createOegy(height, rowHeight, id) {
 		if (oegy) oegy.main.remove();
 		oegy = new OegyScroll(2, height, rowHeight, id);
-		oegy.generateMarkup();
-		oegy.main.appendTo($('body'));
+		oegy.appendTo($('body'));
 	}
 	
 	

@@ -17,11 +17,10 @@
 		oegy.blockSize=50;
 		oegy.height=200;
 		oegy.rowHeight=22;
-		oegy.generateMarkup();
 		oegy.init(10000, 
 			function(row){return "<td>row " + (row + 1) + "</td>"}, 
 			"<td></td>");	
-		oegy.main.appendTo($('body'));
+		oegy.appendTo($('body'));
 		oegy.autorefresh();
   });
 </script>  
