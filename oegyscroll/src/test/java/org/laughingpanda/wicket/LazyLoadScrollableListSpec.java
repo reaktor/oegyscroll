@@ -12,6 +12,7 @@ import jdave.wicket.ComponentSpecification;
 
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.junit.runner.RunWith;
 
@@ -44,6 +45,19 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
 
         public void hasOutputMarkupIdSetToTrue() {
             specify(getScroller().getOutputMarkupId());
+        }
+    }
+    
+    public class AnyScrollerWithData {
+        public LazyLoadScrollableListTestPage create() {
+            blockSize = 5;
+            createTestData(7);
+            return startComponent();
+        }
+
+        public void setsClassAttributeOfBlockElements() {
+        	String attribute = wicket.getTagByWicketId("block").getAttribute("class");
+			specify(attribute, must.equal("markup-class-for-block block"));
         }
     }
 

@@ -58,7 +58,7 @@ public class OegyScrollDemoPage extends WebPage {
 
 
     public OegyScrollDemoPage() {
-        this(1000000, 500);
+        this(100000, 100);
     }
 
     public OegyScrollDemoPage(final int size, final int blockSize) {

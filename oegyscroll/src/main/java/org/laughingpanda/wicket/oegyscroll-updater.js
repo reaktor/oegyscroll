@@ -8,93 +8,87 @@ OegyScrollUpdater.prototype.scheduleScrollPositionUpdate = function() {
 }
 
 OegyScrollUpdater.prototype.checkScrollPositionRepeatedly = function() {
-	this.checkScrollPosition();
+	try {
+		this.checkScrollPosition();
+	} catch (err) {
+		this.error('Error occurred while updating scroller: ' + err);
+	}
 	this.scheduleScrollPositionUpdate();
 }
 
 OegyScrollUpdater.prototype.checkScrollPosition = function() {
-	this.scroller = this.elementById(document, this.scrollerId);
-	this.contentScrolled = this.elementById(this.scroller, this.scrolledContentId); 
-	if (this.scroller && this.contentScrolled) {
+	if (this.scroller() && this.contentScrolled()) {
 		this.refreshPlaceholders();
 	}
 }
 
+OegyScrollUpdater.prototype.scroller = function() {
+	return this.elementById(document, this.scrollerId);
+}
+
+OegyScrollUpdater.prototype.contentScrolled = function() {
+	return this.elementById(this.scroller(), this.scrolledContentId);
+}
+
 OegyScrollUpdater.prototype.refreshPlaceholders = function() {
-	var contentLoaderHeight = this.scroller.offsetHeight;
-	var contentScrolledHeight = this.contentScrolled.offsetHeight;
-	
-	var placeHolderHeight = this.getPlaceHolderHeight(); 
-	var loadedRowHeight = this.getLoadedRowHeight();
-	
-	var minPosition = this.scroller.scrollTop - placeHolderHeight + loadedRowHeight;
-	var maxPosition = minPosition + placeHolderHeight + contentLoaderHeight - loadedRowHeight;
-	
-	this.clickPlaceholdersWithin(minPosition, maxPosition);
-}
-
-OegyScrollUpdater.prototype.clickPlaceholdersWithin = function(minPosition, maxPosition) {
-	updater = this;
-	this.forChildren(this.contentScrolled, function(element) {updater.clickIfPlaceHolder(element, minPosition, maxPosition)});
-}
-
-OegyScrollUpdater.prototype.clickIfPlaceHolder = function(row, minPosition, maxPosition) {
-	if (this.hasClass(row, 'loader-placeholder')) {
-		var rowPosition = row.offsetTop;
-		if (rowPosition > minPosition && rowPosition < maxPosition) {
-			row.onclick();
-		}
-	}	
-}
-
-OegyScrollUpdater.prototype.forChildren = function(parentElement, f) {
-	var parentElementChildren = parentElement.childNodes;
-	for (var i = 0; i < parentElementChildren.length; i++) {
-		var child = parentElementChildren[i];
-		f(child);
-		this.forChildren(child, f);
-	}
-}
-
-OegyScrollUpdater.prototype.getPlaceHolderHeight = function() {
-	return this.getElementHeight(this.contentScrolled, 'loader-placeholder');
-}
-
-OegyScrollUpdater.prototype.getLoadedRowHeight = function() {
-	return this.getElementHeight(this.contentScrolled, 'loaded-row');
-}
-
-OegyScrollUpdater.prototype.getElementHeight = function(container, className) {
-	var contentScrolledChildren = container.childNodes;
-	for (var i = 0; i < contentScrolledChildren.length; i++) {
-		var child = contentScrolledChildren[i];		
-		if (this.hasClass(child, className)) {
-			return child.offsetHeight;
-		}
-		var found = this.getElementHeight(child, className);
-		if (!isNaN(found)) {
-			return found;
+	this.blokz = undefined;
+	if (!this.getBlock(1)) return;
+	for (blockIndex = this.getFirstVisibleBlock(); this.blockPosition(blockIndex) < this.scrollPos() + this.viewHeight() ; blockIndex++) {
+		block = this.getBlock(blockIndex);
+		placeholder = $(".loader-placeholder", $(block)).get(0);
+		if (placeholder) {
+			placeholder.onclick();
 		}
 	}
-	return NaN;
+}
+
+OegyScrollUpdater.prototype.viewHeight = function() {
+	return this.scroller().offsetHeight;
+}
+
+OegyScrollUpdater.prototype.scrollPos = function() {
+	return this.scroller().scrollTop;
+}
+
+OegyScrollUpdater.prototype.blockHeight = function() {
+	return this.getBlock(1).offsetHeight;
+}
+
+OegyScrollUpdater.prototype.getBlock = function(index) {
+	if (!this.blokz) {
+		this.blokz = $(".block", this.contentScrolled());		
+	}
+	return this.blokz.get(index);
+}
+
+OegyScrollUpdater.prototype.blockPosition = function(index) {
+	block = this.getBlock(index);
+	if (block)
+		return block.offsetTop;
+}
+
+OegyScrollUpdater.prototype.getFirstVisibleBlock = function() {
+	return this.getFirstVisibleBlockStartingFrom(this.guessFirstVisibleBlock());
+}
+
+OegyScrollUpdater.prototype.getFirstVisibleBlockStartingFrom = function(from) {
+	while (from > 0 && (!this.getBlock(from) || this.scrollPos() < this.blockPosition(from))) {
+		from -= 1;
+	}
+	while (this.scrollPos() > this.blockPosition(from) + this.blockHeight()) {
+		from += 1;
+	}
+	return from;
+}
+
+OegyScrollUpdater.prototype.guessFirstVisibleBlock = function () {
+	return Math.floor(Math.abs((this.scrollPos() - this.blockPosition(0)) / this.blockHeight()));
 }
 
 OegyScrollUpdater.prototype.error = function(text) {
 	if (typeof(window["console"]) != "undefined") {
 		console.log(text);
 	}
-}
-
-OegyScrollUpdater.prototype.hasClass = function(element, className) {
-	if (element.className) {
-		var classes = element.className.split(' ');
-		for (var i = 0; i < classes.length; i++) {
-			if (classes[i] == className) {
-				return true;
-			}
-		}
-	}
-	return false;
 }
 
 OegyScrollUpdater.prototype.elementById = function(parent, id) {

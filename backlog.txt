@@ -1,1 +1,4 @@
+- IE testing for the new javascript implementation
 - Where to deploy the javascripts?
+- Make Wicket code append all the required attributes
+- Use "onscroll" event or equivalent where applicable

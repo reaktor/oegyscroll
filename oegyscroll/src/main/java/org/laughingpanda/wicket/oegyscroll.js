@@ -6,7 +6,7 @@ function OegyScroll(blockSize, height, rowHeight, id) {
 	this.contentId = "content";
 }	
 OegyScroll.prototype.createBlock = function (contentCreator) {
-	var block = $("<tbody></tbody>")
+	var block = $("<tbody></tbody>").addClass("block");
 	contentCreator(block);
 	block.appendTo(this.contentArea);
 	return block;
@@ -93,5 +93,5 @@ OegyScroll.prototype.autorefresh = function() {
 	this.updater().checkScrollPositionRepeatedly();
 }
 OegyScroll.prototype.updater = function() {
-	return new OegyScrollUpdater(this.id, "content");
+	return new OegyScrollUpdater(this.id, this.contentId);
 }

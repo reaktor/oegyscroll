@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.Model;
 
 class Block<T extends Serializable> implements Serializable {
     private Component placeholder;
@@ -17,11 +19,12 @@ class Block<T extends Serializable> implements Serializable {
     public Block(final int startIndex, final int itemCount, LazyLoadScrollableList<T> list) {
         this.startIndex = startIndex;
         this.itemCount = itemCount;
-        this.list = list;
+        this.list = list;        
     }
 
     public void populate(final Item<Block<T>> item) {
         item.setOutputMarkupId(true);
+        item.add(new AttributeAppender("class", true, new Model<String>("block"), " "));
         this.blockListItem = item;
         placeholder = new PlaceHolder<T>(this);
         item.add(placeholder);
