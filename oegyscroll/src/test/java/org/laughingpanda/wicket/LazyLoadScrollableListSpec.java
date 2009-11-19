@@ -4,7 +4,6 @@ import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import jdave.junit4.JDaveRunner;
@@ -12,7 +11,6 @@ import jdave.wicket.ComponentSpecification;
 
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.junit.runner.RunWith;
 
