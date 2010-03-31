@@ -16,6 +16,7 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
     private final IDataProvider<T> dataProvider;
     private final int blockSize;
     private final List<Block<T>> blocks = new ArrayList<Block<T>>();
+	private boolean javaScriptInitialized;
 
     public LazyLoadScrollableList(final String id, final IDataProvider<T> dataProvider, final int blockSize) {
         super(id);
@@ -54,8 +55,11 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
     }    
     
     public void renderHead(IHeaderResponse response) {
-        addScrollableListJavascript(response);
-        addContentLoaderInitializationJavascript(response);
+    	if (!javaScriptInitialized) {
+    		addScrollableListJavascript(response);
+    		addContentLoaderInitializationJavascript(response);
+    		javaScriptInitialized = true;
+    	}
     }
 
     private void addScrollableListJavascript(IHeaderResponse response) {

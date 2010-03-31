@@ -18,6 +18,7 @@ OegyScrollUpdater.prototype.checkScrollPositionRepeatedly = function() {
 
 OegyScrollUpdater.prototype.checkScrollPosition = function() {
 	if (this.scroller() && this.contentScrolled()) {
+		console.log("Refresh scroller " + this.scroller())
 		this.refreshPlaceholders();
 	}
 }
