@@ -1,29 +1,37 @@
 package org.laughingpanda.wicket;
 
 import static java.util.Collections.emptyList;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import jdave.junit4.JDaveRunner;
-import jdave.wicket.ComponentSpecification;
-
+import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+
+import jdave.junit4.JDaveRunner;
+import jdave.wicket.ComponentSpecification;
 
 @RunWith(JDaveRunner.class)
 public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadScrollableListTestPage> {
     List<String> testData = emptyList();
 
-	private void createTestData(int rowCount) {
-		testData = new ArrayList<String>(rowCount);
-		for (int i = 0; i < rowCount ; i++) {
-			testData.add(new String("row" + i));
-		}
-	}
+    private void createTestData(final int rowCount) {
+        testData = new ArrayList<String>(rowCount);
+        for (int i = 0; i < rowCount; i++) {
+            testData.add(new String("row" + i));
+        }
+    }
     int blockSize = 4;
 
     @SuppressWarnings("unchecked")
@@ -31,7 +39,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
     protected LazyLoadScrollableListTestPage newComponent(final String id, final IModel model) {
         return new LazyLoadScrollableListTestPage(testData, blockSize);
     }
-    
+
     public class AnyScroller {
         public LazyLoadScrollableListTestPage create() {
             return startComponent();
@@ -45,7 +53,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
             specify(getScroller().getOutputMarkupId());
         }
     }
-    
+
     public class AnyScrollerWithData {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 5;
@@ -54,8 +62,8 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
 
         public void setsClassAttributeOfBlockElements() {
-        	String attribute = wicket.getTagByWicketId("block").getAttribute("class");
-			specify(attribute, must.equal("markup-class-for-block block"));
+            String attribute = wicket.getTagByWicketId("block").getAttribute("class");
+            specify(attribute, must.equal("markup-class-for-block block"));
         }
     }
 
@@ -77,8 +85,8 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
 
     public class WhenDatasetIsLessThanBlockSize {
         public LazyLoadScrollableListTestPage create() {
-        	blockSize = 4;
-        	createTestData(3);
+            blockSize = 4;
+            createTestData(3);
             return startComponent();
         }
 
@@ -89,16 +97,16 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         public void placeHolderIsHidden() {
             specify(getPlaceholders().get(0).isVisible(), false);
         }
-        
+
         public void providesIndexForRows() {
-        	verifyIndexes();
+            verifyIndexes();
         }
     }
-    
+
     public class WhenDatasetIsEqualToBlockSize {
         public LazyLoadScrollableListTestPage create() {
-        	blockSize = 4;
-        	createTestData(blockSize);
+            blockSize = 4;
+            createTestData(blockSize);
             return startComponent();
         }
 
@@ -109,24 +117,24 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         public void placeHolderIsHidden() {
             specify(getPlaceholders().get(0).isVisible(), false);
         }
-        
+
         public void providesIndexForRows() {
-        	verifyIndexes();
+            verifyIndexes();
         }
     }
-    
+
     public abstract class WhenDataSetIsLargerThanBlockSize {
         public void placeHolderForFirstBlockIsHidden() {
             specify(getPlaceholders().get(0).isVisible(), false);
         }
-    	
+
         public void placeHoldersForOtherBlocksAreShown() {
             specify(getPlaceholders().get(1).isVisible());
         }
-        
+
         public void providesConsecutiveIndexesForRowsOnDifferentBlocks() {
             showSecondBlock();
-        	verifyIndexes();
+            verifyIndexes();
         }
     }
 
@@ -145,9 +153,9 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
             showSecondBlock();
             specify(getPlaceholders().get(1).isVisible(), false);
             specify(getRenderedRows().size(), 8);
-        }       
+        }
     }
-    
+
     public class WhenDataSetIsBlockSizePlus1 {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 5;
@@ -163,9 +171,9 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
             showSecondBlock();
             specify(getPlaceholders().get(1).isVisible(), false);
             specify(getRenderedRows().size(), 6);
-        }       
+        }
     }
-    
+
     public class WhenDataSetIsBlockSizePlus2 {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 5;
@@ -181,13 +189,12 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
             showSecondBlock();
             specify(getPlaceholders().get(1).isVisible(), false);
             specify(getRenderedRows().size(), 7);
-        }       
+        }
     }
-
 
     public class WhenUpdatingListUsingAjax {
         public LazyLoadScrollableListTestPage create() {
-        	createTestData(2);
+            createTestData(2);
             return startComponent();
         }
 
@@ -200,6 +207,27 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
 
         private String getTextOnRow(final int row) {
             return getRenderedRows().get(row).getDefaultModelObjectAsString();
+        }
+    }
+
+    public class RendersJavascript {
+        IHeaderResponse response = Mockito.mock(IHeaderResponse.class);
+        DummyScroller dummyScroller = new DummyScroller();
+
+        public void onFirstRendering() {
+            render();
+            verify(response).renderJavascriptReference(any(ResourceReference.class));
+            verify(response).renderOnDomReadyJavascript(any(String.class));
+        }
+
+        public void notTwice() {
+            onFirstRendering();
+            render();
+            verifyNoMoreInteractions(response);
+        }
+
+        private void render() {
+            dummyScroller.renderHead(response);
         }
     }
 
@@ -220,13 +248,22 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
     private LazyLoadScrollableList<String> getScroller() {
         return selectFirst(LazyLoadScrollableList.class).from(context);
     }
-    
-	private void showSecondBlock() {
-		wicket.executeAjaxEvent(getPlaceholders().get(1), "onclick");
-	}
-	
-	private void verifyIndexes() {
-		specify(getRenderedIndexes().get(0).getDefaultModelObjectAsString(), should.equal("0"));
-    	specify(getRenderedIndexes().get(1).getDefaultModelObjectAsString(), should.equal("1"));
-	}
+
+    private void showSecondBlock() {
+        wicket.executeAjaxEvent(getPlaceholders().get(1), "onclick");
+    }
+
+    private void verifyIndexes() {
+        specify(getRenderedIndexes().get(0).getDefaultModelObjectAsString(), should.equal("0"));
+        specify(getRenderedIndexes().get(1).getDefaultModelObjectAsString(), should.equal("1"));
+    }
+
+    private final static class DummyScroller extends LazyLoadScrollableList {
+        private DummyScroller() {
+            super("id", null, 100);
+        }
+
+        @Override
+        protected void populateRow(final WebMarkupContainer rowContainer, final int index, final Serializable modelObject) {}
+    }
 }
