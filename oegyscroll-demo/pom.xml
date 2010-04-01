@@ -34,5 +34,17 @@
             </resource>
         </resources>
     </build>
+    <distributionManagement>
+        <repository>
+            <id>Laughing Panda SCP</id>
+            <name>Laughing Panda</name>
+            <url>scpexe://ssh.laughingpanda.org:/var/www/localhost/htdocs/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>Laughing Panda SCP</id>
+            <name>Laughing Panda</name>
+            <url>scpexe://ssh.laughingpanda.org:/var/www/localhost/htdocs/maven2/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
 
