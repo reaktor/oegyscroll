@@ -3,13 +3,13 @@
     <groupId>org.laughingpanda.oegyscroll</groupId>
     <artifactId>oegyscroll</artifactId>
     <packaging>jar</packaging>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.6-SNAPSHOT</version>
     <name>oegyscroll</name>
     <url>http://www.laughingpanda.org</url>
     <parent>
         <groupId>org.laughingpanda.oegyscroll</groupId>
         <artifactId>oegyscroll-root</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
     <dependencies>
