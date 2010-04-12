@@ -21,11 +21,17 @@ public class LazyLoadScrollableListTestPage extends WebPage {
         };
         scroller.setOutputMarkupId(true);
         add(scroller);
-        add(new AjaxLink<Object>("refresh") {
+        add(new AjaxLink<Object>("replaceData") {
             @Override
             public void onClick(final AjaxRequestTarget target) {
                 data.clear();
                 data.add("lol");
+                target.addComponent(scroller);
+            }
+        });
+        add(new AjaxLink<Object>("refresh") {
+            @Override
+            public void onClick(final AjaxRequestTarget target) {
                 target.addComponent(scroller);
             }
         });

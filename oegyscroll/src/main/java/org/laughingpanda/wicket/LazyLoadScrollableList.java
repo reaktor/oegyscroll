@@ -16,7 +16,8 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
     private final IDataProvider<T> dataProvider;
     private final int blockSize;
     private final List<Block<T>> blocks = new ArrayList<Block<T>>();
-	private boolean javaScriptInitialized;
+    private boolean javaScriptInitialized;
+    private int initialRow;
 
     public LazyLoadScrollableList(final String id, final IDataProvider<T> dataProvider, final int blockSize) {
         super(id);
@@ -25,6 +26,14 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
         add(new ScrolledContentView<T>("scrolledContent", blocks));
         setMarkupId("scroller" + System.identityHashCode(this));
         setOutputMarkupId(true);
+    }
+
+    public int getInitialRow() {
+        return initialRow;
+    }
+
+    public void setInitialRow(final int initialRow) {
+        this.initialRow = initialRow;
     }
 
     @Override

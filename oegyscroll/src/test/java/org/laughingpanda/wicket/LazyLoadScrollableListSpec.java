@@ -192,6 +192,20 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    public class WhenSettingInitialRow {
+        public LazyLoadScrollableListTestPage create() {
+            blockSize = 5;
+            createTestData(6);
+            return startComponent();
+        }
+
+        public void blockContainingInitialRowIsRendered() {
+            getScroller().setInitialRow(blockSize);
+            wicket.executeAjaxEvent(selectFirst(AjaxLink.class, "refresh").from(context), "onclick");
+            specify(getRenderedRows().size(), 6);
+        }
+    }
+
     public class WhenUpdatingListUsingAjax {
         public LazyLoadScrollableListTestPage create() {
             createTestData(2);
@@ -199,10 +213,9 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
 
         public void contentIsUpdated() {
-            String textOnFirstRow = getTextOnRow(0);
-            wicket.executeAjaxEvent(selectFirst(AjaxLink.class, "refresh").from(context), "onclick");
+            wicket.executeAjaxEvent(selectFirst(AjaxLink.class, "replaceData").from(context), "onclick");
             String newTextOnFirstRow = getTextOnRow(0);
-            specify(newTextOnFirstRow, must.not().equal(textOnFirstRow));
+            specify(newTextOnFirstRow, must.equal("lol"));
         }
 
         private String getTextOnRow(final int row) {
