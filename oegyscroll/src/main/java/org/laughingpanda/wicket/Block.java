@@ -16,10 +16,10 @@ class Block<T extends Serializable> implements Serializable {
     private Item<Block<T>> blockListItem;
     private final LazyLoadScrollableList<T> list;
 
-    public Block(final int startIndex, final int itemCount, LazyLoadScrollableList<T> list) {
+    public Block(final int startIndex, final int itemCount, final LazyLoadScrollableList<T> list) {
         this.startIndex = startIndex;
         this.itemCount = itemCount;
-        this.list = list;        
+        this.list = list;
     }
 
     public void populate(final Item<Block<T>> item) {
@@ -30,6 +30,10 @@ class Block<T extends Serializable> implements Serializable {
         item.add(placeholder);
         rowDataView = new RowDataView<T>("row", list, startIndex);
         item.add(rowDataView);
+        int initialRow = list.getInitialRow();
+        if (initialRow >= startIndex && initialRow < startIndex + itemCount) {
+            showRows();
+        }
     }
 
     protected void showRows() {
