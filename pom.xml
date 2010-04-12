@@ -3,7 +3,7 @@
     <groupId>org.laughingpanda.oegyscroll</groupId>
     <artifactId>oegyscroll-root</artifactId>
     <packaging>pom</packaging>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.8-SNAPSHOT</version>
     <name>oegyscroll</name>
     <url>http://www.laughingpanda.org</url>
     <modules>
