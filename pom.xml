@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
     <version>1.8-SNAPSHOT</version>
     <name>oegyscroll</name>
-    <url>http://www.laughingpanda.org</url>
+    <url>https://github.com/reaktor/oegyscroll</url>
     <modules>
         <module>oegyscroll</module>
         <module>oegyscroll-demo</module>
@@ -23,9 +23,9 @@
         </snapshotRepository>
     </distributionManagement>
     <scm>
-        <connection>scm:svn:https://svn.laughingpanda.org/svn/oegyscroll/trunk</connection>
-        <developerConnection>scm:svn:https://svn.laughingpanda.org/svn/oegyscroll/trunk</developerConnection>
-        <url>https://svn.laughingpanda.org/svn/oegyscroll/trunk</url>
+        <connection>scm:git:git://github.com/reaktor/oegyscroll.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/reaktor/oegyscroll.git</developerConnection>
+        <url>https://github.com/reaktor/oegyscroll</url>
     </scm>
     <profiles>
         <profile>
