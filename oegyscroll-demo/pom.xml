@@ -5,7 +5,7 @@
     <packaging>war</packaging>
     <version>1.8-SNAPSHOT</version>
     <name>oegyscroll-demo</name>
-    <url>http://www.laughingpanda.org</url>
+    <url>https://github.com/reaktor/oegyscroll</url>
     <dependencies>
         <dependency>
             <groupId>org.laughingpanda.oegyscroll</groupId>
@@ -38,12 +38,12 @@
         <repository>
             <id>Laughing Panda SCP</id>
             <name>Laughing Panda</name>
-            <url>scpexe://ssh.laughingpanda.org:/var/www/localhost/htdocs/maven2</url>
+            <url>scpexe://maven.laughingpanda.org:/var/www/w/maven.laughingpanda.org/maven2</url>
         </repository>
         <snapshotRepository>
             <id>Laughing Panda SCP</id>
             <name>Laughing Panda</name>
-            <url>scpexe://ssh.laughingpanda.org:/var/www/localhost/htdocs/maven2/snapshots</url>
+            <url>scpexe://maven.laughingpanda.org:/var/www/w/maven.laughingpanda.org/maven2/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
