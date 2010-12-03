@@ -14,12 +14,12 @@
         <repository>
             <id>Laughing Panda SCP</id>
             <name>Laughing Panda</name>
-            <url>scpexe://ssh.laughingpanda.org:/var/www/localhost/htdocs/maven2</url>
+            <url>scpexe://maven.laughingpanda.org:/var/www/w/maven.laughingpanda.org/maven2</url>
         </repository>
         <snapshotRepository>
             <id>Laughing Panda SCP</id>
             <name>Laughing Panda</name>
-            <url>scpexe://ssh.laughingpanda.org:/var/www/localhost/htdocs/maven2/snapshots</url>
+            <url>scpexe://maven.laughingpanda.org:/var/www/w/maven.laughingpanda.org/maven2/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <scm>
@@ -51,7 +51,7 @@
     <repositories>
         <repository>
             <id>Laughing Panda</id>
-            <url>http://www.laughingpanda.org/maven2</url>
+            <url>http://maven.laughingpanda.org/maven2</url>
         </repository>
     </repositories>
     <dependencies>
