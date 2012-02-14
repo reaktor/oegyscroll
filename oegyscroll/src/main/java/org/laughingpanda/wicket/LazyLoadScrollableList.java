@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 
 public abstract class LazyLoadScrollableList<T extends Serializable> extends WebMarkupContainer implements IHeaderContributor {
     private int remainder;
@@ -61,23 +62,24 @@ public abstract class LazyLoadScrollableList<T extends Serializable> extends Web
 
     public IDataProvider<T> getDataProvider() {
         return dataProvider;
-    }    
-    
+    }
+
+    @Override
     public void renderHead(IHeaderResponse response) {
-    	if (!javaScriptInitialized) {
-    		addScrollableListJavascript(response);
-    		addContentLoaderInitializationJavascript(response);
-    		javaScriptInitialized = true;
-    	}
+        if (!javaScriptInitialized) {
+            addScrollableListJavascript(response);
+            addContentLoaderInitializationJavascript(response);
+            javaScriptInitialized = true;
+        }
     }
 
     private void addScrollableListJavascript(IHeaderResponse response) {
-        response.renderJavascriptReference(new ResourceReference(LazyLoadScrollableList.class, "oegyscroll-updater.js"));
+        response.renderJavaScriptReference(new JavaScriptResourceReference(LazyLoadScrollableList.class, "oegyscroll-updater.js"));
     }
 
     private void addContentLoaderInitializationJavascript(IHeaderResponse response) {
         final String scrollerId = getMarkupId();
         final String scrolledContentId = get("scrolledContent").getMarkupId();
-        response.renderOnDomReadyJavascript("new OegyScrollUpdater(\""+scrollerId+"\", \""+scrolledContentId+"\").scheduleScrollPositionUpdate();");
+        response.renderOnDomReadyJavaScript("new OegyScrollUpdater(\"" + scrollerId + "\", \"" + scrolledContentId + "\").scheduleScrollPositionUpdate();");
     }
 }

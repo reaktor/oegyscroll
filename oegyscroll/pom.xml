@@ -22,6 +22,12 @@
             <groupId>org.jdave</groupId>
             <artifactId>jdave-wicket</artifactId>
             <version>1.3</version>
+            <exclusions>
+            	<exclusion>
+            		<artifactId>wicket</artifactId>
+            		<groupId>org.apache.wicket</groupId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jdave</groupId>
