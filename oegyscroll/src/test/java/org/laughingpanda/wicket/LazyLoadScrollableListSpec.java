@@ -23,7 +23,7 @@ import jdave.junit4.JDaveRunner;
 import jdave.wicket.ComponentSpecification;
 
 @RunWith(JDaveRunner.class)
-public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadScrollableListTestPage> {
+public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadScrollableListTestPage, Void> {
     List<String> testData = emptyList();
 
     private void createTestData(final int rowCount) {

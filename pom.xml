@@ -67,9 +67,10 @@
             <version>2.4</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.wicket</groupId>
-            <artifactId>wicket</artifactId>
-            <version>1.4.0</version>
+        	<groupId>org.apache.wicket</groupId>
+        	<artifactId>wicket</artifactId>
+        	<version>1.5.4</version>
+        	<type>pom</type>
         </dependency>
     </dependencies>
 </project>
