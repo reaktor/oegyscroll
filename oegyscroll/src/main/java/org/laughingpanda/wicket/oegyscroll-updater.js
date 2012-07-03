@@ -34,8 +34,14 @@ OegyScrollUpdater.prototype.refreshPlaceholders = function() {
 	this.blokz = undefined;
 	if (!this.getBlock(1)) return;
 	for (blockIndex = this.getFirstVisibleBlock(); this.blockPosition(blockIndex) < this.scrollPos() + this.viewHeight() ; blockIndex++) {
+		/** Too slow for big scrollings, speed up. */
+		if(this.blockPosition(blockIndex + 1) && this.blockPosition(blockIndex + 1) < this.scrollPos() + this.viewHeight()) {
+			continue;
+		}
 		block = this.getBlock(blockIndex);
-		placeholder = $(".loader-placeholder", $(block)).get(0);
+		placeholder = (function($) { 
+				return $(".loader-placeholder", $(block)).get(0); 
+			})(jQuery);
 		if (placeholder) {
 			placeholder.onclick();
 		}
@@ -56,7 +62,10 @@ OegyScrollUpdater.prototype.blockHeight = function() {
 
 OegyScrollUpdater.prototype.getBlock = function(index) {
 	if (!this.blokz) {
-		this.blokz = $(".block", this.contentScrolled());		
+		var parent = this.contentScrolled();
+		this.blokz = (function($) {
+			return $(".block", parent);
+		})(jQuery);
 	}
 	return this.blokz.get(index);
 }
@@ -97,7 +106,9 @@ OegyScrollUpdater.prototype.error = function(text) {
 }
 
 OegyScrollUpdater.prototype.elementById = function(parent, id) {
-	var element = $("#" + id, $(parent)).get(0);
+	var element = (function($) {
+		return $("#" + id, $(parent)).get(0);
+	})(jQuery);
 	if (!element) {
 		this.error('Element ' + id + ' not found from page.');
 	}
