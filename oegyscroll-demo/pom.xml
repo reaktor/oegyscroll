@@ -10,7 +10,7 @@
     <dependency>
       <groupId>org.laughingpanda.oegyscroll</groupId>
       <artifactId>oegyscroll-wicket15</artifactId>
-      <version>1.8</version>
+      <version>1.8.2</version>
     </dependency>
   </dependencies>
   <build>
