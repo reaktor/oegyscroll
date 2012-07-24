@@ -4,10 +4,7 @@ function OegyScrollUpdater(scrollerId, scrolledContentId) {
 }
 
 OegyScrollUpdater.prototype.scheduleScrollPositionUpdate = function() {
-    var self = this;
-	return window.setInterval(function() {
-	    new OegyScrollUpdater(self.scrollerId, self.scrolledContentId).checkScrollPositionRepeatedly();
-	}, 1000);
+	setTimeout('new OegyScrollUpdater("' + this.scrollerId+ '", "' + this.scrolledContentId + '").checkScrollPositionRepeatedly()', 1000);
 }
 
 OegyScrollUpdater.prototype.checkScrollPositionRepeatedly = function() {
@@ -16,6 +13,7 @@ OegyScrollUpdater.prototype.checkScrollPositionRepeatedly = function() {
 	} catch (err) {
 		this.error('Error occurred while updating scroller: ' + err);
 	}
+	this.scheduleScrollPositionUpdate();
 }
 
 OegyScrollUpdater.prototype.checkScrollPosition = function() {
