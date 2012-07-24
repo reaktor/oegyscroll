@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import jdave.Specification;
 import jdave.junit4.JDaveRunner;
 import jdave.wicket.ComponentSpecification;
 
@@ -25,12 +24,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 @RunWith(JDaveRunner.class)
-
-public class LazyLoadScrollableListSpec extends Specification<Void>{
-    
-}
-
-/**
 public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadScrollableListTestPage, Void> {
     List<String> testData = emptyList();
 
@@ -48,6 +41,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         return new LazyLoadScrollableListTestPage(testData, blockSize);
     }
 
+    @Ignore
     public class AnyScroller {
         public LazyLoadScrollableListTestPage create() {
             return startComponent();
@@ -62,6 +56,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class AnyScrollerWithData {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 5;
@@ -75,6 +70,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class WhenDatasetSizeIsZero {
         public LazyLoadScrollableListTestPage create() {
             testData = Arrays.asList();
@@ -91,6 +87,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class WhenDatasetIsLessThanBlockSize {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 4;
@@ -111,6 +108,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class WhenDatasetIsEqualToBlockSize {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 4;
@@ -131,6 +129,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public abstract class WhenDataSetIsLargerThanBlockSize {
         public void placeHolderForFirstBlockIsHidden() {
             specify(getPlaceholders().get(0).isVisible(), false);
@@ -146,6 +145,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class WhenDatasetIsTwoTimesBlockSize extends WhenDataSetIsLargerThanBlockSize {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 4;
@@ -164,6 +164,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class WhenDataSetIsBlockSizePlus1 {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 5;
@@ -182,6 +183,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class WhenDataSetIsBlockSizePlus2 {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 5;
@@ -200,6 +202,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class WhenSettingInitialRow {
         public LazyLoadScrollableListTestPage create() {
             blockSize = 5;
@@ -214,6 +217,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class WhenUpdatingListUsingAjax {
         public LazyLoadScrollableListTestPage create() {
             createTestData(2);
@@ -231,6 +235,7 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         }
     }
 
+    @Ignore
     public class RendersJavascript {
         IHeaderResponse response = Mockito.mock(IHeaderResponse.class);
         DummyScroller dummyScroller = new DummyScroller();
@@ -288,4 +293,3 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         protected void populateRow(final WebMarkupContainer rowContainer, final int index, final Serializable modelObject) {}
     }
 }
-**/
