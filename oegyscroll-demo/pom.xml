@@ -3,14 +3,14 @@
     <groupId>org.laughingpanda.oegyscroll</groupId>
     <artifactId>oegyscroll-demo</artifactId>
     <packaging>war</packaging>
-    <version>1.12-SNAPSHOT</version>
+    <version>1.12</version>
     <name>oegyscroll-demo</name>
     <url>https://github.com/reaktor/oegyscroll</url>
     <dependencies>
         <dependency>
             <groupId>org.laughingpanda.oegyscroll</groupId>
             <artifactId>oegyscroll</artifactId>
-            <version>1.12-SNAPSHOT</version>
+            <version>1.12</version>
         </dependency>
     </dependencies>
     <build>
