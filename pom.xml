@@ -27,6 +27,15 @@
         <developerConnection>scm:git:ssh://git@github.com/reaktor/oegyscroll.git</developerConnection>
         <url>https://github.com/reaktor/oegyscroll</url>
     </scm>
+    <build>
+      <extensions>
+        <extension>
+          <groupId>org.apache.maven.wagon</groupId>
+           <artifactId>wagon-ssh</artifactId>
+           <version>2.2</version>
+        </extension>
+      </extensions>
+    </build>
     <profiles>
         <profile>
             <id>release</id>
