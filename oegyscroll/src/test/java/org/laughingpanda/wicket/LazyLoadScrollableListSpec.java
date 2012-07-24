@@ -10,28 +10,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import jdave.Specification;
-import jdave.junit4.JDaveRunner;
-import jdave.wicket.ComponentSpecification;
-
+import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
+import jdave.junit4.JDaveRunner;
+import jdave.wicket.ComponentSpecification;
+
 @RunWith(JDaveRunner.class)
-
-public class LazyLoadScrollableListSpec extends Specification<Void>{
-    
-}
-
-/**
-public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadScrollableListTestPage, Void> {
+public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadScrollableListTestPage> {
     List<String> testData = emptyList();
 
     private void createTestData(final int rowCount) {
@@ -237,8 +229,8 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
 
         public void onFirstRendering() {
             render();
-            verify(response).renderJavaScriptReference(any(JavaScriptResourceReference.class));
-            verify(response).renderOnDomReadyJavaScript(any(String.class));
+            verify(response).renderJavascriptReference(any(ResourceReference.class));
+            verify(response).renderOnDomReadyJavascript(any(String.class));
         }
 
         public void notTwice() {
@@ -288,4 +280,3 @@ public class LazyLoadScrollableListSpec extends ComponentSpecification<LazyLoadS
         protected void populateRow(final WebMarkupContainer rowContainer, final int index, final Serializable modelObject) {}
     }
 }
-**/
