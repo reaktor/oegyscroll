@@ -6,32 +6,22 @@ function OegyScroll(blockSize, height, rowHeight, id) {
 	this.contentId = "content";
 }	
 OegyScroll.prototype.createBlock = function (contentCreator) {
-	var block = (function($) { return $("<tbody></tbody>").addClass("block"); })(jQuery);
+	var block = $("<tbody></tbody>").addClass("block");
 	contentCreator(block);
 	block.appendTo(this.contentArea);
 	return block;
 }
 OegyScroll.prototype.createPlaceholder = function (id, content) {
-	return (function($) { 
-		return $('<tr id="' + id + '" class="loader-placeholder" style="height: ' + (this.blockSize * this.rowHeight) + 'px">'+content+'</tr>'); 
-		})(jQuery); 
+	return $('<tr id="' + id + '" class="loader-placeholder" style="height: ' + (this.blockSize * this.rowHeight) + 'px">'+content+'</tr>');
 };
 OegyScroll.prototype.generateMarkup = function() {
-	this.main = (function($) { 
-		return $('<div style="height:'+this.height+'px;overflow:auto;border:1px solid #ccc;"></div>');
-	})(jQuery);
+	this.main = $('<div style="height:'+this.height+'px;overflow:auto;border:1px solid #ccc;"></div>');
 	this.main.attr("id", this.id);	
-	this.scrollable = (function($) { 
-		return $('<div class="scrollable-area"></div>').appendTo(this.main); 
-		})(jQuery);
-	this.contentArea = (function($) { 
-		return $('<table id="' + this.contentId + '"></table>').appendTo(this.scrollable);
-	})(jQuery);
+	this.scrollable = $('<div class="scrollable-area"></div>').appendTo(this.main);
+	this.contentArea = $('<table id="' + this.contentId + '"></table>').appendTo(this.scrollable);
 }	
 OegyScroll.prototype.createRow = function (content) {
-	return (function($) { 
-		return $('<tr class="loaded-row" style="height: ' + this.rowHeight + 'px">' + content + '</tr>'); 
-		})(jQuery);
+	return $('<tr class="loaded-row" style="height: ' + this.rowHeight + 'px">' + content + '</tr>');
 }
 OegyScroll.prototype.createPlaceHolderBlock = function(id, content, onclickFunction) {
 	var placeHolder = this.createPlaceholder(id, content);		
@@ -43,13 +33,9 @@ OegyScroll.prototype.createPlaceHolderBlock = function(id, content, onclickFunct
 }
 OegyScroll.prototype.checkInit = function() {
 	if (!this.main) {
-		this.main=(function($) { 
-			return $("#" + this.id);
-		})(jQuery);
+		this.main=$("#" + this.id);
 		if (this.main.size() > 0) {
-			this.contentArea=(function($) { 
-				return $("#" + this.contentId, this.main);
-			})(jQuery);
+			this.contentArea=$("#" + this.contentId, this.main);
 		} else {
 			this.generateMarkup();
 		}
