@@ -38,12 +38,12 @@
         <repository>
             <id>Laughing Panda SCP</id>
             <name>Laughing Panda</name>
-            <url>scp://maven.laughingpanda.org:/var/www/w/maven.laughingpanda.org/maven2</url>
+            <url>scp://maven.laughingpanda.org:/var/www/maven.laughingpanda.org/maven2</url>
         </repository>
         <snapshotRepository>
             <id>Laughing Panda SCP</id>
             <name>Laughing Panda</name>
-            <url>scp://maven.laughingpanda.org:/var/www/w/maven.laughingpanda.org/maven2/snapshots</url>
+            <url>scp://maven.laughingpanda.org:/var/www/maven.laughingpanda.org/maven2/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
