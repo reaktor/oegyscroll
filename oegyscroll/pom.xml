@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.laughingpanda.oegyscroll</groupId>
     <artifactId>oegyscroll-wicket15-root</artifactId>
-    <version>1.8.2</version>
+    <version>1.15-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
   <dependencies>
